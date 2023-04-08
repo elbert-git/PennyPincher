@@ -1,0 +1,43 @@
+* {padding:0; margin: 0; box-sizing: border-box; overflow: clip;}
+html, body{height: 100%; overflow: clip; background-color: grey;}
+
+.fill-width{width: 100%;}
+.fill-height{height: 100%}
+
+
+.red{
+  outline: rgba(255, 0, 0, 0.445) solid 1px;
+}
+
+.overlay{
+  height: 100%; width: 100%; position: absolute; top: 0; left: 0
+}
+
+.main-screen{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  padding: 1em;
+}
+
+.main-screen button {
+  padding: 1em;
+  margin: 1em;
+}
+
+#circleCanvas{
+  height: 100%; width: 100%;
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+}
+
+#circle{
+  background-color: white;
+  border: none;
+  height: 5em; width: 5em;
+  border-radius: 50%;
+  pointer-events: auto;
+  position: absolute;
+}
