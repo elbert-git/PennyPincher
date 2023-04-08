@@ -78,7 +78,7 @@ function getCircleOffset(){
   return offset
 }
 function offsetIntoDollarNumber(){
-  const dollarOffset = -Math.floor(getCircleOffset().y * 0.01);
+  const dollarOffset = -Math.floor(getCircleOffset().y * 0.05);
   return dollarOffset
 }
 const elDollarDiv = document.getElementById('dollarDiv');
