@@ -1,8 +1,11 @@
+import MoneyValue from './moneyValue';
 import './style.css'
 
 //em sizing 
 const em = (size:number)=>{return size*16};
 
+// money value stuff
+const moneyValue = new MoneyValue();
 
 // get elements
 const elCircle = document.getElementById('circle')!;
@@ -16,8 +19,8 @@ const circleRadius = (em(5))/2;
 let circleIsClicked = false;
 window.addEventListener('mouseup', ()=>{circleIsClicked = false; yDelta = 0})
 window.addEventListener('touchend', ()=>{circleIsClicked = false; yDelta = 0})
-elCircle.addEventListener('mousedown', ()=>{circleIsClicked = true; moneyValue = 0})
-elCircle.addEventListener('touchstart', ()=>{circleIsClicked = true; moneyValue = 0})
+elCircle.addEventListener('mousedown', ()=>{circleIsClicked = true; moneyValue.updateLabel(0)})
+elCircle.addEventListener('touchstart', ()=>{circleIsClicked = true; moneyValue.updateLabel(0)})
 
 // lerping
 function lerp(a:number, b:number, t=0.5){
@@ -25,17 +28,34 @@ function lerp(a:number, b:number, t=0.5){
 }
 
 // track cursor position and y delta
-const currentCirclePosition = {x: 0, y: 0};
-const cursorPosition = {x: 0, y: 0};
+let currentCirclePosition = {x: 0, y: 0};
+const relativeCirclePosition = {x: 0, y: 0};
+let cursorPosition = {x: 0, y: 0};
 let yDelta = 0;
 const previousCursorPosition = {x:0, y:0};
 window.addEventListener('mousemove', (e)=>{
   cursorPosition.x = e.pageX;
   cursorPosition.y = e.pageY;
+
+  // get relative position
+  const CircleCenterDefaultPosition = {
+    x: (windowSize.x/2),
+    y: (windowSize.y - em(1) - circleRadius)
+  }
+  relativeCirclePosition.x = currentCirclePosition.x - CircleCenterDefaultPosition.x;
+  relativeCirclePosition.y = -(currentCirclePosition.y - CircleCenterDefaultPosition.y);
 })
 window.addEventListener('touchmove', (e)=>{
   cursorPosition.x = e.touches[0].pageX;
   cursorPosition.y = e.touches[0].pageY;
+
+  // get relative position
+  const CircleCenterDefaultPosition = {
+    x: (windowSize.x/2),
+    y: (windowSize.y - em(1) - circleRadius)
+  }
+  relativeCirclePosition.x = currentCirclePosition.x - CircleCenterDefaultPosition.x;
+  relativeCirclePosition.y = -(currentCirclePosition.y - CircleCenterDefaultPosition.y);
 })
 
 // handle default circle position
@@ -52,50 +72,9 @@ function getDefaultCirclePosition(){
     y: windowSize.y - circleRadius - em(1)
   }
 }
+currentCirclePosition = getDefaultCirclePosition();
+cursorPosition = getDefaultCirclePosition();
 
-// x position into multiplier
-const screenSpaceMultiplierRows = [0, 0, 0];
-function updatesScreenSpaceMultiplierRows(){
-  const screenWidth = windowSize.x/2;
-  screenSpaceMultiplierRows[0] = screenWidth * (1/3);
-  screenSpaceMultiplierRows[1] = screenWidth * (2/3);
-  screenSpaceMultiplierRows[2] = screenWidth * (3/3);
-}
-updatesScreenSpaceMultiplierRows();
-let multiplier = 0;
-function xIntoMultiplier(){
-  const relativeXPos = cursorPosition.x - (windowSize.x/2)
-  const relativeXPosAbs = Math.abs(relativeXPos)
-  let multiplierId = 0
-  if(relativeXPosAbs < screenSpaceMultiplierRows[0]){multiplierId =  1}
-  else if(relativeXPosAbs < screenSpaceMultiplierRows[1]){multiplierId =  2}
-  else{multiplierId =  3}
-
-  if(relativeXPos < 0){multiplierId *= -1}
-  console.log(multiplierId);
-
-
-  let finalMultiplier = 0
-  switch(multiplierId){
-    case 2: 
-      finalMultiplier = 10;
-      break;
-    case 3: 
-      finalMultiplier = 100;
-      break;
-    case -2: 
-      finalMultiplier = 0.5;
-      break;
-    case -3: 
-      finalMultiplier = 0.1;
-      break;
-    default: 
-      finalMultiplier = 1      
-      break;
-  }
-
-  return finalMultiplier;
-}
 
 
 // processing circle position
@@ -113,37 +92,114 @@ function processCircle(){
     elCircle.setAttribute('style', `top: ${currentCirclePosition.y - circleRadius}px; left: ${currentCirclePosition.x - circleRadius}px;`)
   }
 
-
-  // calculate y delta
-  yDelta = previousCursorPosition.y - cursorPosition.y;
-  // save previous position
-  previousCursorPosition.x = cursorPosition.x;
-  previousCursorPosition.y = cursorPosition.y;
+  // // calculate y delta
+  // yDelta = previousCursorPosition.y - cursorPosition.y;
+  // // save previous position
+  // previousCursorPosition.x = cursorPosition.x;
+  // previousCursorPosition.y = cursorPosition.y;
 }
 
+// threshold processing
+const yThresholds = [
+  100,
+  200,
+  300,
+  400,
+  500,
+  600,
+  700, 
+  800,
+  900,
+];
+let prevYThreshold = 0;
+function getCurrentYThreshold(){
+  for (let index = 0; index < yThresholds.length; index++) {
+    if(relativeCirclePosition.y < yThresholds[index]){
+      return index;
+    }
+  }
+  return yThresholds.length - 1;
+}
+function didWeCrossYThreshold(){
+  const yThreshold = getCurrentYThreshold()
+  if(prevYThreshold !== yThreshold){
+    console.log('crossed!');
 
-// offset into number
-let moneyValue = 0
-function updateMoneyValue(delta:number, multiplier=2){
-  moneyValue += delta * multiplier;
-  // update ui
-  updateDollars(moneyValue)
+    moneyValue.updateLabelBy(xThresholdToMultiplier(getCurrentXThreshold()) * (yThreshold > prevYThreshold ? 1 : -1));
+    // save current threshold
+    prevYThreshold = getCurrentYThreshold()!;
+  }
 }
 
-// updateing dollar ui
-const elDollarDiv = document.getElementById('dollarDiv');
-function updateDollars(num:number){
-  elDollarDiv!.innerHTML = `$${num.toString()}`
+const xThresholds = [
+  -300,
+  -200,
+  -100,
+  100,
+  200,
+  300
+];
+let prevXThreshold = 3;
+function getCurrentXThreshold(){
+  // console.log(relativeCirclePosition.x);
+  for (let index = 0; index < xThresholds.length; index++) {
+
+    // console.log('comparing', `position x: ${relativeCirclePosition.x} smaller than` , `current compare ${xThresholds[index]}`)
+    // console.log(`result is ${relativeCirclePosition.x < xThresholds[index]}`)
+    
+    if(relativeCirclePosition.x < xThresholds[index]){
+      // console.log(index, xThresholds[index],  relativeCirclePosition.x);
+      return index;
+    }
+  }
+  return xThresholds.length - 1;
 }
-updateDollars(0)
+function didWeCrossXThreshold(){
+  if(prevXThreshold !== getCurrentXThreshold()){
+    console.log('crossed!');
+    // save current threshold
+    prevXThreshold = getCurrentXThreshold()!;
+  }
+}
+function xThresholdToMultiplier(xThresholdIndex:number){
+  switch(xThresholdIndex-1){
+    case 0:
+      return 0.01
+      break;
+    case 1:
+      return 0.10
+      break;
+    case 2:
+      return 1
+      break;
+    case 3:
+      return 10
+      break;
+    case 4:
+      return 100
+      break;
+    case 5:
+      return 1000
+      break;
+    default:
+      return 0
+      break;
+  }
+}
+
 
 
 
 const update = ()=>{
   processCircle();
 
+
   // process delta into number
-  if(circleIsClicked){updateMoneyValue(yDelta, xIntoMultiplier())};
+  if(circleIsClicked){
+    didWeCrossYThreshold();
+    didWeCrossXThreshold();
+    // console.log(relativeCirclePosition.y);
+  };
 
 
   requestAnimationFrame(update);
