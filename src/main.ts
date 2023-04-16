@@ -19,8 +19,18 @@ const circleRadius = (em(5))/2;
 let circleIsClicked = false;
 window.addEventListener('mouseup', ()=>{circleIsClicked = false; yDelta = 0})
 window.addEventListener('touchend', ()=>{circleIsClicked = false; yDelta = 0})
-elCircle.addEventListener('mousedown', ()=>{circleIsClicked = true; moneyValue.updateLabel(0)})
-elCircle.addEventListener('touchstart', ()=>{circleIsClicked = true; moneyValue.updateLabel(0)})
+elCircle.addEventListener('mousedown', ()=>{
+  circleIsClicked = true;
+  moneyValue.updateLabel(0)
+  currentCirclePosition = getDefaultCirclePosition();
+  cursorPosition = getDefaultCirclePosition();
+})
+elCircle.addEventListener('touchstart', ()=>{
+  circleIsClicked = true;
+  moneyValue.updateLabel(0)
+  currentCirclePosition = getDefaultCirclePosition();
+  cursorPosition = getDefaultCirclePosition();
+})
 
 // lerping
 function lerp(a:number, b:number, t=0.5){
