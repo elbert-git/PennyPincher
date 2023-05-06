@@ -1,0 +1,12 @@
+{
+  "name": "Penny Pincher",
+  "start_url":"./index.html",
+  "display":"standalone",
+  "icons": [
+    {
+      "src": "assets/pwaIcons/icon144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }
+  ]
+}
