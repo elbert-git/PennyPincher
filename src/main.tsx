@@ -5,7 +5,8 @@ import initializeServiceWorkers from './pwa/initialiseServiceWorker';
 import App from './reactStuff/app';
 
 //initialise service workers
-initializeServiceWorkers.bind(this).call;
+initializeServiceWorkers();
+
 
 // initialise react stuff
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
