@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["../scss/main.scss"],"names":[],"mappings":"AAAA;EAAE;EAAW;EAAY;;;AAEzB;EAAW;EAAc","file":"main.css"}
+{"version":3,"sourceRoot":"","sources":["../scss/carousel.scss","../scss/main.scss"],"names":[],"mappings":"AAAA;EACI;EACA;EACA;EACA;EACA;EAEA;;AAEA;EACI;EACA;;AAEA;EACI;EACA;EACA;EACA;EACA;;;ACfZ;EAAE;;;AAEF;EAAE;EAAW;EAAY;;;AACzB;EAAkB;EAAc;EAAiB","file":"main.css"}

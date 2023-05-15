@@ -18,20 +18,4 @@
   border-radius: 1rem;
 }
 
-* {
-  outline: rgba(255, 0, 0, 0.502) solid 1px;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body, #root {
-  height: 100%;
-  min-width: 100%;
-  overflow: clip;
-}
-
-/*# sourceMappingURL=main.css.map */
+/*# sourceMappingURL=carousel.css.map */

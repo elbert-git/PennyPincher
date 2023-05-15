@@ -1,3 +1,7 @@
-*{margin: 0; padding: 0; box-sizing: border-box;}
+@use './carousel.scss';
 
-html, body{height: 100%; width: 100%;}
+// *{background-color: rgba(255, 0, 0, 0.315);}
+*{outline: rgba(255, 0, 0, 0.502) solid 1px;}
+
+*{margin: 0; padding: 0; box-sizing: border-box;}
+html, body, #root{height: 100%; min-width: 100%; overflow: clip;}
