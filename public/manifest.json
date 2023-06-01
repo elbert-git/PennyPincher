@@ -2,7 +2,7 @@
   "name": "Penny Pincher",
   "start_url":"/index.html",
   "id":"/index.html",
-  "display":"standalone",
+  "display":"browser",
   "icons": [
     {
       "src": "assets/pwaIcons/icon144.png",
