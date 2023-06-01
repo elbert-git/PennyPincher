@@ -4,7 +4,7 @@ event.waitUntil(
     caches.open('static').then((cache)=>{
     cache.addAll([
         '/PennyPincher',
-        '/PennyPincher/index.html',
+        // '/PennyPincher/index.html',
         // '/sw.js'
     ]);
     })
