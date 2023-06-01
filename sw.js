@@ -3,8 +3,8 @@ console.log('sw installed');
 event.waitUntil(
     caches.open('static').then((cache)=>{
     cache.addAll([
-        '/',
-        '/index.html',
+        '/PennyPincher',
+        '/PennyPincher/index.html',
         // '/sw.js'
     ]);
     })
