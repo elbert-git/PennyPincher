@@ -1,7 +1,7 @@
 {
   "name": "Penny Pincher",
   "start_url":"PennyPincher/index.html",
-  "id":"/index.html",
+  "id":"PennyPincher/index.html",
   "display":"browser",
   "icons": [
     {
