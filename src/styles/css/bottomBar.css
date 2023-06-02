@@ -1,0 +1,33 @@
+.bottomBar {
+  position: relative;
+  height: 6rem;
+  max-width: 100%;
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bottomBar img {
+  height: 100%;
+}
+.bottomBar .buttonsWrapper {
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+.bottomBar .buttonsWrapper .whiteBarButton {
+  height: 3rem;
+  background-color: none;
+  transition: 0.3s;
+}
+.bottomBar .buttonsWrapper .whiteBarButton:hover {
+  transform: scale(1.1);
+}
+.bottomBar .buttonsWrapper .whiteBarButton:active {
+  transform: scale(0.9);
+}
+
+/*# sourceMappingURL=bottomBar.css.map */

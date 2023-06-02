@@ -1,25 +1,30 @@
 .mainCarousel{
     width: 100%;
     height: 100%;
-    overflow: scroll;
-    display: flex;
+    overflow: hidden;
+    flex-direction: column;
     transition: 0.1s;
+    touch-action: none;
 
-    background-color: orange;
-
-    .carouselScreen{
+    .carouselScroller{
+        width: 100%; height: 100%;
+        flex-grow: 1;
         display: flex;
-        box-sizing: border-box;
-        min-width: 100%;
-        height: 100%;
 
-        .whiteScreenCard{
+        .carouselScreen{
+            display: flex;
             box-sizing: border-box;
-            background-color: white;
-            margin: 1rem;
-            padding: 1rem;
-            border-radius: 1rem;
-            flex-grow: 1;
+            min-width: 100%;
+            height: 100%;
+
+            .whiteScreenCard{
+                box-sizing: border-box;
+                background-color: white;
+                margin: 1rem;
+                padding: 1rem;
+                border-radius: 1rem;
+                flex-grow: 1;
+            }
         }
     }
 }

@@ -2,15 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import "./styles/css/main.css";
 import initializeServiceWorkers from './pwa/initialiseServiceWorker';
-import App from './reactStuff/app';
-import MainCarousel from './reactStuff/screens/mainCarousel';
+import MainScreen from './reactStuff/MainScreen';
 
 //initialise service workers
-initializeServiceWorkers();
+// initializeServiceWorkers();
 
 // initialise react stuff
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <MainCarousel></MainCarousel>
+    <MainScreen></MainScreen>
   </React.StrictMode>,
 )

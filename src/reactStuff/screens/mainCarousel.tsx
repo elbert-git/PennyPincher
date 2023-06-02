@@ -23,14 +23,16 @@ export default function MainCarousel(){
     }
 
     return <div className="mainCarousel" ref={elScroller} onKeyDown={handleKeyDown} tabIndex={0}>
-        <CarouselScreen>
-            <WhiteScreenCard></WhiteScreenCard>
-        </CarouselScreen>
-        <CarouselScreen>
-            <div>hello</div>
-        </CarouselScreen>
-        <CarouselScreen>
-            <WhiteScreenCard></WhiteScreenCard>
-        </CarouselScreen>
+        <div className="carouselScroller">
+            <CarouselScreen>
+                <WhiteScreenCard></WhiteScreenCard>
+            </CarouselScreen>
+            <CarouselScreen>
+                <div>hello</div>
+            </CarouselScreen>
+            <CarouselScreen>
+                <WhiteScreenCard></WhiteScreenCard>
+            </CarouselScreen>
+        </div>
     </div>
 }

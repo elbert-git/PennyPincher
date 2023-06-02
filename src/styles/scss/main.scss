@@ -1,7 +1,13 @@
 @use './carousel.scss';
+@use './mainScreen.scss';
+@use './bottomBar.scss';
 
 // *{background-color: rgba(255, 0, 0, 0.315);}
 *{outline: rgba(255, 0, 0, 0.502) solid 1px;}
 
 *{margin: 0; padding: 0; box-sizing: border-box;}
 html, body, #root{height: 100%; min-width: 100%; overflow: clip;}
+
+html, body{
+    background-color: orange;
+}
