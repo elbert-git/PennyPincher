@@ -2,27 +2,26 @@ import CarouselScreen from "./carouselScreen"
 import WhiteScreenCard from "./whiteScreencard";
 import {useEffect, useRef, useState} from 'react';
 
-export default function MainCarousel(){
-    // this component controls the scroll
-    // it holds the state which screen is on and will animate to where the screen is
+interface MainCarouselProps{
+    focusedScreenIndex:number
+}
+
+export default function MainCarousel(props:MainCarouselProps){
+    // get main scrolling element
     const elScroller:any = useRef();
 
-    const [slideState, setSlideState] = useState(0);
-
+    //scroll on focused screen change
     useEffect(()=>{
         const scrollWidth = elScroller.current.clientWidth;
         //scroll to correct index position
         elScroller.current.scroll({
-            left: scrollWidth * slideState,
+            left: scrollWidth * props.focusedScreenIndex,
             behavior: "smooth"
         })
-    },[slideState])
+    },[props.focusedScreenIndex])
 
-    const handleKeyDown = (e:any)=>{
-        setSlideState(slideState + 1)
-    }
 
-    return <div className="mainCarousel" ref={elScroller} onKeyDown={handleKeyDown} tabIndex={0}>
+    return <div className="mainCarousel" ref={elScroller} tabIndex={0}>
         <div className="carouselScroller">
             <CarouselScreen>
                 <WhiteScreenCard></WhiteScreenCard>

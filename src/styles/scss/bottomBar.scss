@@ -15,20 +15,41 @@
     }
     
     .buttonsWrapper{
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
 
         position: absolute;
         height: 100%; width: 100%;
         top: 0; left: 0;
 
+
         .whiteBarButton{
-            height: 3rem;
+            height: 3.5rem;
             background-color: none;
+
+            border:none;
+
+            align-self: center;
+            justify-self: center;
 
             transition:0.3s;
 
             &:hover{transform: scale(1.1);}
             &:active{transform: scale(0.9);}
+
+            .svg{
+                height: 100%;
+                path{
+                    fill:rgba(0, 0, 0, 0.418)
+                }
+
+            }
+
+            .glow{
+                path{
+                    fill: orange;
+                }
+            }
         }
     }
 }

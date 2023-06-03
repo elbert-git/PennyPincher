@@ -11,7 +11,8 @@
   height: 100%;
 }
 .bottomBar .buttonsWrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -19,8 +20,11 @@
   left: 0;
 }
 .bottomBar .buttonsWrapper .whiteBarButton {
-  height: 3rem;
+  height: 3.5rem;
   background-color: none;
+  border: none;
+  align-self: center;
+  justify-self: center;
   transition: 0.3s;
 }
 .bottomBar .buttonsWrapper .whiteBarButton:hover {
@@ -28,6 +32,15 @@
 }
 .bottomBar .buttonsWrapper .whiteBarButton:active {
   transform: scale(0.9);
+}
+.bottomBar .buttonsWrapper .whiteBarButton .svg {
+  height: 100%;
+}
+.bottomBar .buttonsWrapper .whiteBarButton .svg path {
+  fill: rgba(0, 0, 0, 0.418);
+}
+.bottomBar .buttonsWrapper .whiteBarButton .glow path {
+  fill: orange;
 }
 
 /*# sourceMappingURL=bottomBar.css.map */
