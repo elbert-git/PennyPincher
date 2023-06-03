@@ -23,6 +23,7 @@
   height: 3.5rem;
   background-color: none;
   border: none;
+  background-color: white;
   align-self: center;
   justify-self: center;
   transition: 0.3s;
@@ -33,13 +34,12 @@
 .bottomBar .buttonsWrapper .whiteBarButton:active {
   transform: scale(0.9);
 }
-.bottomBar .buttonsWrapper .whiteBarButton .svg {
-  height: 100%;
+.bottomBar .buttonsWrapper .whiteBarButton path {
+  transition: 0.3s;
+  fill: rgba(0, 0, 0, 0.24);
 }
-.bottomBar .buttonsWrapper .whiteBarButton .svg path {
-  fill: rgba(0, 0, 0, 0.418);
-}
-.bottomBar .buttonsWrapper .whiteBarButton .glow path {
+.bottomBar .buttonsWrapper .glow path {
+  transition: 0.3s;
   fill: orange;
 }
 

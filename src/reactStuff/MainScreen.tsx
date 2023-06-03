@@ -5,7 +5,7 @@ import StateManager from "./stateManager";
 
 export default function MainScreen(){
     //create focused screen state
-    const [focusedScreen, setFocusedScreen] = useState(0);
+    const [focusedScreen, setFocusedScreen] = useState(1);
 
     //register with state manager
     useEffect(()=>{

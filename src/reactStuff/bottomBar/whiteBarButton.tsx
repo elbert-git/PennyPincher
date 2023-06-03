@@ -1,24 +1,25 @@
+import { useEffect } from "react";
 import StateManager from "../stateManager";
-import CalendarIcon from "./icons/calendarIcon";
 
-export interface whiteButtonProps{
-    imageUrl:string;
-    screenIndex:number;
-}
 
-export default function WhiteBarButton(props:whiteButtonProps){
+export default function WhiteBarButton(props:any){
     //on click func
     const clickEvent = ()=>{
-        new StateManager().states['focusedScreen'][1](props.screenIndex);
+        new StateManager().updateState('focusedScreen', props.screenIndex)
     }
 
-    console.log(new StateManager().states);
-    const currentFocusedScreenIndex = new StateManager().states['focusedScreen'][0];
-    const isHighlighted = currentFocusedScreenIndex === props.screenIndex
+    //handle button state
+    let className = "whiteBarButton";
+    const stateManager = new StateManager();
+    if(stateManager.states['focusedScreen']){
+        if(stateManager.states['focusedScreen'][0] === props.screenIndex){
+            className = 'whiteBarButton glow'
+        }
+    }
 
-    return <button className="whiteBarButton" onClick={clickEvent}>
-        {/* <img className="svg" src={props.imageUrl} alt="" /> */}
-        <CalendarIcon highlighed={isHighlighted}></CalendarIcon>
+
+    return <button className={className} onClick={clickEvent}>
+        {props.children}
     </button>
 
 }

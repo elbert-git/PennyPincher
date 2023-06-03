@@ -16,4 +16,10 @@ export default class StateManager{
             this.states[key] = [...stateArray];
         }
     }
+    updateState(key:string, value:any){
+        //update state for react
+        this.states[key][1](value);
+        //update state in class
+        this.states[key][0] = value;
+    }
 }

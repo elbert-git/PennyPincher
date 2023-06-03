@@ -28,6 +28,7 @@
             background-color: none;
 
             border:none;
+            background-color: white;
 
             align-self: center;
             justify-self: center;
@@ -37,18 +38,17 @@
             &:hover{transform: scale(1.1);}
             &:active{transform: scale(0.9);}
 
-            .svg{
-                height: 100%;
-                path{
-                    fill:rgba(0, 0, 0, 0.418)
-                }
-
+            path{
+                transition: 0.3s;
+                fill: rgba(0, 0, 0, 0.24);
             }
 
-            .glow{
-                path{
-                    fill: orange;
-                }
+        }
+
+        .glow{
+            path{
+                transition: 0.3s;
+                fill:orange
             }
         }
     }
