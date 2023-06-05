@@ -1,6 +1,15 @@
 @use './carousel.scss';
 @use './mainScreen.scss';
 @use './bottomBar.scss';
+@use './expenseScreen.scss';
+
+// handle fonts
+@import url('https://fonts.googleapis.com/css2?family=Jomhuria&display=swap');
+.jomhuria{
+    font-family: 'Jomhuria', cursive;
+    font-weight: 400;
+}
+
 
 // *{background-color: rgba(255, 0, 0, 0.315);}
 // *{outline: rgba(255, 0, 0, 0.502) solid 1px;}
@@ -10,4 +19,11 @@ html, body, #root{height: 100%; min-width: 100%; overflow: clip;}
 
 html, body{
     background-color: orange;
+}
+
+.clickable{
+    transition:0.3s;
+
+    &:hover{transform: scale(1.1);}
+    &:active{transform: scale(0.9);}
 }

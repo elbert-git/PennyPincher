@@ -1,0 +1,25 @@
+.expenseScreen{
+    max-width: 100%;
+
+    .categoriesSection{
+        max-width: 100%;
+        
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+
+        padding: 1rem;
+
+    }
+
+    .categoryPill{
+        display: flex;
+        justify-content: center;
+        align-content: center;
+
+        border-radius: 2.5rem;
+        width: 5rem;
+        padding: 0.25rem;
+    }
+}
