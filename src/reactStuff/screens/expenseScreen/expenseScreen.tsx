@@ -5,6 +5,7 @@ import CategoryPill from "./categoryPill";
 import StateManager from "../../stateManager";
 import Records from "../../../data/records";
 import ExpenseLine from "./expenseLine";
+import PieChart from "./pieChart";
 
 const tempPieChartStyle = {
     width: '100%',
@@ -51,7 +52,7 @@ export default function ExpenseScreen(){
         {/* heading */}
         <ScreenHeading text="Expense Records"></ScreenHeading>
         {/* pie chart */}
-        <div style={tempPieChartStyle}></div>
+        <PieChart></PieChart>
         {/* categories */}
         <div className="categoriesSection">
             {Categories.instance!.cache.map((elem)=>{
