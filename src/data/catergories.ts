@@ -12,7 +12,6 @@ export default class Categories  {
     cache:Array<Category> = []
     constructor(){
         if(!Categories.instance){
-            console.log("categories created");
             Categories.instance = this;
         }else{
             return Categories.instance;

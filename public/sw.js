@@ -16,7 +16,7 @@ console.log('sw activated');
 })
 
 self.addEventListener('fetch', (event)=>{
-console.log('fetching');
+// console.log('fetching');
 event.respondWith(
     caches.match(event.request).then((res)=>{
     if(res){
