@@ -18,14 +18,20 @@ export default class Records{
         return this.cache.filter(record => includedCategories.includes(record.category));
     }
     getRecordsForPie(){
-        // todo need ot get category names based on data only
-        const categoryNames = Categories.instance!.cache.map(elem => elem.name);
-        const totals:Array<number> = new Array(categoryNames.length).fill(0);
-        //create returning array
-        //for each record. add to the correct tally
+        const returningTotal:{[key:string]:{amount:number, color:string}} = {}
         this.cache.forEach((record)=>{
-            const index = categoryNames.indexOf(record.category);
-            if()
+            //if record category is in returningTotal just add to it
+            if(returningTotal[record.category]){
+                returningTotal[record.category].amount = returningTotal[record.category].amount + record.amount
+            }
+            //else create new catergory entry
+            else{
+                returningTotal[record.category] = {
+                    amount: record.amount,
+                    color:record.color
+                }
+            }
         })
+        return returningTotal;
     }
 }
