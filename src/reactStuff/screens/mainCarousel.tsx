@@ -2,6 +2,7 @@ import CarouselScreen from "./carouselScreen"
 import WhiteScreenCard from "./whiteScreencard";
 import {useEffect, useRef, useState} from 'react';
 import ExpenseScreen from "./expenseScreen/expenseScreen";
+import SettingsScreen from "./settingsScreen/settingsScreen";
 
 interface MainCarouselProps{
     focusedScreenIndex:number
@@ -21,7 +22,6 @@ export default function MainCarousel(props:MainCarouselProps){
         })
     },[props.focusedScreenIndex])
 
-
     return <div className="mainCarousel" ref={elScroller} tabIndex={0}>
         <div className="carouselScroller">
             <CarouselScreen>
@@ -33,7 +33,9 @@ export default function MainCarousel(props:MainCarouselProps){
                 <div>hello</div>
             </CarouselScreen>
             <CarouselScreen>
-                <WhiteScreenCard></WhiteScreenCard>
+                <WhiteScreenCard>
+                   <SettingsScreen></SettingsScreen> 
+                </WhiteScreenCard>
             </CarouselScreen>
         </div>
     </div>

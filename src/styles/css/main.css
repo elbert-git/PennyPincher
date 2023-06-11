@@ -44,6 +44,15 @@
   justify-content: center;
   font-size: 3.5rem;
 }
+.mainCarousel .subHeading {
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+  border-width: 0 0 4px 0;
+  border-style: solid;
+  border-color: black;
+}
 
 .mainScreen {
   height: 100%;
@@ -129,6 +138,41 @@
   justify-content: space-between;
   max-width: 100%;
   padding: 0.5rem 1.25rem;
+}
+
+.settingsScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0rem 1rem;
+}
+.settingsScreen .label {
+  font-size: 2rem;
+}
+.settingsScreen .budgetDisplayToggle {
+  margin: 1rem 2rem 2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.settingsScreen .budgetDisplayToggle .toggleRoot {
+  height: 2rem;
+  width: 3.5rem;
+  border: 2px solid black;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.25rem;
+  transition: 0.3s;
+}
+.settingsScreen .budgetDisplayToggle .toggleRoot .toggleNob {
+  transition: 0.3s;
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: black;
+  border-radius: 50%;
 }
 
 .jomhuria {

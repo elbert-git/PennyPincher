@@ -49,4 +49,15 @@
         justify-content: center;
         font-size: 3.5rem;
     }
+    
+    .subHeading{
+        width: fit-content;
+        display: flex;
+        justify-content: center;
+        font-size: 2rem;
+
+        border-width: 0 0 4px 0;
+        border-style: solid;
+        border-color: black;
+    }
 }

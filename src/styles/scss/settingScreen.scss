@@ -1,0 +1,43 @@
+.settingsScreen{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0rem 1rem;
+
+
+    .label{
+        font-size: 2rem;
+    }
+
+    .budgetDisplayToggle{
+        margin: 1rem 2rem 2rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .toggleRoot{
+            height: 2rem;
+            width: 3.5rem;
+            border: 2px solid black;
+            border-radius: 1rem;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0.25rem;
+
+            transition:0.3s;
+
+
+            .toggleNob{
+                transition:0.3s;
+                position: relative;
+
+                width: 1.5rem;
+                height: 1.5rem;
+                background-color: black;
+                border-radius: 50%;
+            }
+        }
+    }
+}
