@@ -11,7 +11,7 @@ export default function CategoriesSettings(){
     return <div className="categoriesSettings jomhuria">
         <button style={addCategoryStyle} className="pillShape jomhuria clickable">+ Add Category</button>
         {localCategoriesCopy.map((category)=>{
-            return <CategorySlot text={category.name} color={category.color}></CategorySlot>
+            return <CategorySlot key={category.name} text={category.name} color={category.color}></CategorySlot>
         })}
 
     </div>

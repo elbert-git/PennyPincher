@@ -14,10 +14,10 @@
     }
 
     .budgetDisplayToggle{
-        margin: 1rem 2rem 2rem 2rem;
+        width: 100%;
+        margin: 1rem 2rem;
         display: flex;
         justify-content: space-between;
-        width: 100%;
 
         .toggleRoot{
             height: 2rem;
@@ -47,13 +47,19 @@
 
     .categoriesSettings{
         width: 100%;
+        margin-top:1rem;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
 
         .pillShape{
             font-size: 2rem;
             width: 100%;
             border: none;
             padding: 1rem;
-            margin: 1rem 0rem;
+            // margin: 1rem 0rem;
             border-radius: 2rem;
             height: 3rem;
 
@@ -65,6 +71,7 @@
         }
 
         .categorySlot{
+            width: 100%;
             .accordion{
                 max-height: 0rem;
 
@@ -72,13 +79,20 @@
 
                 height: 8rem;
                 background-color: rgb(159, 212, 201);
-                margin: 0 0 0 0;
+                margin: 0rem 0rem 0rem 0rem;
+
+                overflow: hidden;
+
+                .categorySlotAccordion{
+                    font-size: 1.5rem;
+                    padding:1rem;
+                }
             }
 
             &:hover{
                 .accordion{
                     max-height: 10rem;
-                    margin: 0 0 1.5rem 0;
+                    margin: 1 0 1.5rem 0;
                 }
             }
         }

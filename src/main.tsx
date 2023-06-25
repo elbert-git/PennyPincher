@@ -9,11 +9,17 @@ import { ColorConstants } from './data/catergoryColors';
 import Records from './data/records';
 import { Record } from './data/records';
 import { v4 as uuid } from 'uuid';
+import UserDataManager from './data/UserDataManager';
 
 //! commenting this to stop errors in dev
 //! uncomment in production build
 //initialise service workers
 // initializeServiceWorkers();
+
+
+// on applicaiton init
+UserDataManager.init();
+UserDataManager.debug_createFakeUserData();
 
 // create temp categories
 const categories = new Categories();
