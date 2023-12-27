@@ -10,14 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.2",
+    "apexcharts": "^3.45.1",
     "react": "^18.2.0",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
+    "react-swipe": "^6.0.4",
     "sass": "^1.69.5",
+    "swipe-js-iso": "^2.1.5",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "@types/react-swipe": "^6.0.4",
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
