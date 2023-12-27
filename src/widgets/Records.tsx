@@ -42,7 +42,7 @@ export default function Records(){
             borderRadius:'1rem',
             transition:'0.3s',
             transform: isActive ? 'scale(1)':'scale(0.8)',
-            opacity: isActive ? '1': '0.8'
+            opacity: isActive ? '1': '0.5'
           }
           return <button className="interactive" style={style} key={cat} onClick={()=>{toggleCategories(cat)}}>{cat}</button>
         })}
