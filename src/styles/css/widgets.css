@@ -1,0 +1,17 @@
+.balance {
+  gap: 0.5rem;
+}
+.balance .col2 {
+  font-size: 1.5rem;
+}
+.balance .col1 {
+  gap: 0.5rem;
+}
+
+.records .recordEntry {
+  margin: 0.5rem 0rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+}
+
+/*# sourceMappingURL=widgets.css.map */
