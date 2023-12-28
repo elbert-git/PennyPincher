@@ -40,6 +40,7 @@ export default function Charts(){
       </div>
       <div>
         <h2>Balance Trajector</h2>
+        <div>(past 30 days)</div>
         <canvas className="chart" ref={elBarChart}></canvas>
       </div>
     </ReactSwipe>

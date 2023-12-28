@@ -28,13 +28,13 @@ export function createFakeUserData(budget=500){
   // get random category
   const userData:UserData = {
     budget:budget,
-    logEntries: Array(50).fill(0).map((val)=>{
+    logEntries: Array(20).fill(0).map((val)=>{
       const categoryKeys = Object.keys(categories)
       const randomIndex = Math.floor(Math.random()*categoryKeys.length);
       const category:Category  = categories[categoryKeys[randomIndex]]
       val;
       const logEntry:LogEntry = {
-        amount: Number((Math.random()*100).toFixed(2)),
+        amount: Number((Math.random()*20).toFixed(2)),
         timeStamp:getRandomTimestampInPastMonth(),
         categoryKey: category.key,
         categoryColor: category.color,

@@ -1,6 +1,11 @@
 import { LogEntry } from "./data/dataInterfaces";
 import { DataManager } from "./data/dataManager";
 
+function lerp(start: number, end: number, t: number): number {
+    return start * (1 - t) + end * t;
+}
+
+
 export class ChartCanvas{
   element:HTMLCanvasElement|null = null;
   ctx:CanvasRenderingContext2D|null = null
@@ -86,9 +91,9 @@ export class PieChartCanvas extends ChartCanvas{
 }
 
 export class BarChartCanvas extends ChartCanvas{
-  color = 'teal'
   padding = 16;
   data:{[index:string]:Array<LogEntry>} = {}
+  historyOfBalances:Array<number> = []
   constructor(){
     super();
   }
@@ -96,18 +101,8 @@ export class BarChartCanvas extends ChartCanvas{
     super.update();
     if(this.ctx){
       this.drawGraph()
-      // prepare data set
-      const dates = Object.keys(this.data)
-      const historyOfbalances = dates.map((date)=>{
-        // calcTotal 
-        let total = 0
-        const logs = this.data[date]
-        for (let index = 0; index < logs.length; index++) {
-          const log = logs[index]
-          total += log.amount
-        }
-        return DataManager.cache!.budget - total
-      })
+      this.drawBars()
+      this.drawTrajectory()
     }
   }
   setData(data:{[index:string]:Array<LogEntry>}){
@@ -117,9 +112,55 @@ export class BarChartCanvas extends ChartCanvas{
     const ctx = this.ctx!
     // draw graph
     ctx.beginPath();
+    this.ctx!.lineWidth = 3;
+    this.ctx!.lineCap = 'round'
     ctx.moveTo(this.padding, this.padding);
     ctx.lineTo(this.padding, this.size.y - this.padding)
     ctx.lineTo(this.size.x - this.padding, this.size.y - this.padding)
     ctx.stroke()
+  }
+  drawBars(){
+      // prepare data set
+      const dates = Object.keys(this.data)
+      let prevBal = DataManager.cache!.budget
+      const historyOfbalances = dates.map((date) => {
+        // calcTotal 
+        let total = 0
+        const logs = this.data[date]
+        for (let index = 0; index < logs.length; index++) {
+          const log = logs[index]
+          total += log.amount
+        }
+        const returning = prevBal - total
+        prevBal = returning
+        return returning
+      })
+      this.historyOfBalances = historyOfbalances
+      // calculate middle positions ofbars
+      const lengthOfBar = this.size.x - this.padding*2
+      const arrOfBarPositions:Array<number> = []
+      for (let index = 1; index < historyOfbalances.length + 1; index++) {
+        const pos = lerp(0, lengthOfBar, (index/historyOfbalances.length))
+        arrOfBarPositions.push(pos)
+      }
+      // start drawing bars
+      const gap = 2;
+      const widthOfBar = (lengthOfBar/arrOfBarPositions.length) - 2;
+      const fullHeightOfBar = this.size.y - this.padding*2;
+      arrOfBarPositions.forEach((pos, index)=>{
+        // draw bars
+        this.ctx?.beginPath();
+        this.ctx!.rect(
+          this.padding + pos - (widthOfBar/2),
+          this.size.y-this.padding,
+          widthOfBar,
+          ((historyOfbalances[index])/(DataManager.cache!.budget)) * -fullHeightOfBar
+        )
+        this.ctx!.fillStyle = 'black';
+        this.ctx!.fill();
+      })
+  }
+  drawTrajectory(){
+
   }
 }
