@@ -2,22 +2,17 @@ import { LogEntry, UserData } from "./dataInterfaces"
 import { categories, Category } from "./constants";
 import {v4 as uuid} from 'uuid';
 
-function getTimestampInPastMonth(): number {
+function getRandomTimestampInPastMonth(): number {
   const currentDate = new Date();
-  // Get the current month and year
-  let currentMonth = currentDate.getMonth();
-  let currentYear = currentDate.getFullYear();
-  // Calculate the previous month
-  currentMonth -= 1;
-  if (currentMonth < 0) {
-    currentMonth = 11; // December (0-based index)
-    currentYear -= 1;
-  }
-  // Set the date to the 1st day of the previous month
-  const previousMonthDate = new Date(currentYear, currentMonth, 1);
-  // Get the timestamp for the 1st day of the previous month
-  const timestamp = previousMonthDate.getTime();
-  return timestamp;
+  const currentTimestamp = currentDate.getTime();
+  
+  const pastMonth = currentDate.getMonth() - 1;
+  const pastMonthDate = new Date(currentDate.getFullYear(), pastMonth, 1);
+  
+  const pastMonthTimestamp = pastMonthDate.getTime();
+  const randomTimestamp = Math.floor(Math.random() * (currentTimestamp - pastMonthTimestamp)) + pastMonthTimestamp;
+  
+  return randomTimestamp;
 }
 
 
@@ -40,7 +35,7 @@ export function createFakeUserData(budget=500){
       val;
       const logEntry:LogEntry = {
         amount: Number((Math.random()*100).toFixed(2)),
-        timeStamp:getTimestampInPastMonth(),
+        timeStamp:getRandomTimestampInPastMonth(),
         categoryKey: category.key,
         categoryColor: category.color,
         id:uuid()

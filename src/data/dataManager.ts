@@ -1,8 +1,16 @@
 import { createFakeUserData } from "./createDefaultData";
-import { UserData } from "./dataInterfaces";
+import { LogEntry, UserData } from "./dataInterfaces";
 
 // local storage key
 export const localStorageKey = 'pennyPincher'
+
+function formatTimestampToDDMM(timestamp: number): string {
+  const date = new Date(timestamp * 1000); // Convert Unix timestamp to milliseconds
+  const day = date.getDate().toString().padStart(2, '0'); // Get day and pad with zero if needed
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month starts from 0, so add 1. Pad with zero if needed
+  return `${day}/${month}`;
+}
+
 
 // main class
 export class DataManager{
@@ -26,5 +34,14 @@ export class DataManager{
   static SaveData(userData:UserData){
     DataManager.cache = userData;
     localStorage.setItem(localStorageKey, JSON.stringify(this.cache))
+  }
+  static SortByDate(){
+    const finalData:{[index:string]:Array<LogEntry>} = {}
+    DataManager.cache?.logEntries.forEach((log)=>{
+      const dateString = formatTimestampToDDMM(log.timeStamp);
+      if(finalData[dateString]){finalData[dateString].push(log)}
+      else{finalData[dateString] = [log]}
+    })
+    return finalData
   }
 }
