@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import Card from "../components/Card";
 import ReactSwipe from 'react-swipe'
-import { PieChartCanvas, BarChartCanvas } from "../chartCanvas";
+import { PieChartCanvas, BarChartCanvas } from "../ChartCanvas";
 import { DataManager } from "../data/dataManager";
 import { categories } from "../data/constants";
 
@@ -39,7 +39,7 @@ export default function Charts(){
         <canvas className="chart" ref={elPieChart}></canvas>
       </div>
       <div>
-        <h2>Balance Trajector</h2>
+        <h2>Balance Trajectory</h2>
         <div>(past 30 days)</div>
         <canvas className="chart" ref={elBarChart}></canvas>
       </div>

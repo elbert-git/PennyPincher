@@ -4,7 +4,31 @@ import { DataManager } from "./data/dataManager";
 function lerp(start: number, end: number, t: number): number {
     return start * (1 - t) + end * t;
 }
+function mapRange(v=0.5, a=0,b=1,c=0,d=100):number{
+	const vScalar = v/(b-a)
+	return c + (d-100)*vScalar 
+}
 
+interface Coordinate {
+    x: number;
+    y: number;
+}
+function linearRegression(coordinates: Coordinate[]){
+    const n = coordinates.length;
+    let sumX = 0;
+    let sumY = 0;
+    let sumXY = 0;
+    let sumXX = 0;
+    coordinates.forEach(({ x, y }) => {
+        sumX += x;
+        sumY += y;
+        sumXY += x * y;
+        sumXX += x * x;
+    });
+    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+    return [slope, intercept];
+}
 
 export class ChartCanvas{
   element:HTMLCanvasElement|null = null;
@@ -12,13 +36,12 @@ export class ChartCanvas{
   color = 'white'
   size = {x:0, y:0}
   constructor(){
-    setInterval(this.update.bind(this), 1000);
-    this.update();
   }
   setElement(el:HTMLCanvasElement){
     this.element = el;
     this.ctx = el.getContext('2d');
     this.resize();
+		this.update()
   }
   update(){
     if(this.element && this.ctx){
@@ -34,6 +57,7 @@ export class ChartCanvas{
       y: this.element!.clientHeight
     }
     this.element!.width = this.size.x; this.element!.height = this.size.y
+		this.update()
   }
 }
 
@@ -59,6 +83,7 @@ export class PieChartCanvas extends ChartCanvas{
       angle: (data[key].amount/totalAmount)*(Math.PI*2),
       color: data[key].color
     }})
+		this.update()
   }
   update(): void {
     super.update();
@@ -92,8 +117,8 @@ export class PieChartCanvas extends ChartCanvas{
 
 export class BarChartCanvas extends ChartCanvas{
   padding = 16;
-  data:{[index:string]:Array<LogEntry>} = {}
-  historyOfBalances:Array<number> = []
+  data:{[index:string]:Array<LogEntry>|null} = {}
+  historyOfBalances:Array<number|null> = []
   constructor(){
     super();
   }
@@ -106,7 +131,20 @@ export class BarChartCanvas extends ChartCanvas{
     }
   }
   setData(data:{[index:string]:Array<LogEntry>}){
-    this.data = data
+		// filter by the past 30 days
+		const dateKeys = Object.keys(data).sort();
+		const datesPast30Days:{[index:string]:Array<LogEntry>|null} = {}
+		for(let i=0; i < 30; i++){
+			const reverseIndex = dateKeys.length - 1 - i
+			if(data[dateKeys[reverseIndex]]){
+				datesPast30Days[dateKeys[reverseIndex]] = data[dateKeys[reverseIndex]]
+			}else{
+				datesPast30Days[(3000+i).toString()] = null
+			}
+		}
+		//update data
+    this.data = datesPast30Days
+		this.update()
   }
   drawGraph(){
     const ctx = this.ctx!
@@ -121,18 +159,21 @@ export class BarChartCanvas extends ChartCanvas{
   }
   drawBars(){
       // prepare data set
-      const dates = Object.keys(this.data)
+      const dates = Object.keys(this.data).sort()
       let prevBal = DataManager.cache!.budget
       const historyOfbalances = dates.map((date) => {
         // calcTotal 
         let total = 0
-        const logs = this.data[date]
-        for (let index = 0; index < logs.length; index++) {
-          const log = logs[index]
-          total += log.amount
-        }
-        const returning = prevBal - total
-        prevBal = returning
+				let returning:number|null = null
+				if(this.data[date]){
+					const logs = this.data[date]
+					for (let index = 0; index < logs!.length; index++) {
+						const log = logs![index]
+						total += log.amount
+					}
+					returning = prevBal - total
+					prevBal = returning
+				}
         return returning
       })
       this.historyOfBalances = historyOfbalances
@@ -144,7 +185,7 @@ export class BarChartCanvas extends ChartCanvas{
         arrOfBarPositions.push(pos)
       }
       // start drawing bars
-      const gap = 2;
+      // const gap = 2;
       const widthOfBar = (lengthOfBar/arrOfBarPositions.length) - 2;
       const fullHeightOfBar = this.size.y - this.padding*2;
       arrOfBarPositions.forEach((pos, index)=>{
@@ -154,13 +195,46 @@ export class BarChartCanvas extends ChartCanvas{
           this.padding + pos - (widthOfBar/2),
           this.size.y-this.padding,
           widthOfBar,
-          ((historyOfbalances[index])/(DataManager.cache!.budget)) * -fullHeightOfBar
+          ((historyOfbalances[index]!)/(DataManager.cache!.budget)) * -fullHeightOfBar
         )
         this.ctx!.fillStyle = 'black';
         this.ctx!.fill();
       })
   }
   drawTrajectory(){
-
+		// --- convert history of all balances into cartesian points
+      const lengthOfBar = this.size.x - this.padding*2
+			const historyOfBalances = this.historyOfBalances
+      const arrOfBarXPositions:Array<number> = []
+      const fullHeightOfBar = this.size.y - this.padding*2;
+      for (let index = 1; index < historyOfBalances.length + 1; index++) {
+        const pos = lerp(0, lengthOfBar, (index/historyOfBalances.length))
+        arrOfBarXPositions.push(pos)
+      }
+			const arrOfBarPositions = arrOfBarXPositions.map((x, index)=>{
+				if(historyOfBalances[index]){
+					const y = this.size.y - this.padding - ((historyOfBalances[index]!/DataManager.cache!.budget)*(fullHeightOfBar))
+					return {x: x+this.padding, y:y}
+				}else{
+					return null
+				}
+			})
+		// --- calculate linear regression
+		const availablePositions = arrOfBarPositions.filter(e=>e!==null)
+		const [m, b] = linearRegression(availablePositions as Array<{x:number,y:number}>);
+		// --- create 2 cartesian points for line
+		const pointsToDraw = [
+			{x:0, y: b},
+			{x: this.size.x, y:(this.size.x*m)+b}
+		]
+		// --- use ctx to draw line
+		this.ctx!.beginPath()
+		this.ctx!.moveTo(pointsToDraw[0].x, pointsToDraw[0].y)
+		this.ctx!.lineTo(pointsToDraw[1].x, pointsToDraw[1].y)
+		this.ctx!.setLineDash([10])
+		this.ctx!.strokeStyle = 'rgba(0,0,0,0.3)'
+		this.ctx!.stroke()
+		this.ctx!.setLineDash([])
+		this.ctx!.strokeStyle = 'rgba(0,0,0,1)'
   }
 }
