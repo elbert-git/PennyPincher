@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './app.tsx'
 import './styles/css/main.css'
 import { DataManager } from './data/dataManager.ts'
+import PennyInput from './touchInput.ts'
 
 // init data manager
 DataManager.init();
@@ -14,8 +15,12 @@ window.addEventListener('keydown', (e)=>{
   }
 })
 
+//start penny input
+const pennyInput = new PennyInput(); pennyInput
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
 )
+
