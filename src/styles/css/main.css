@@ -170,13 +170,14 @@
   position: relative;
   width: 100%;
   max-width: 500px;
-  opacity: 0.3;
-  background-color: red;
 }
 
-.circle {
+#circle {
   position: absolute;
-  border-radius: 1rem;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  background-color: white;
 }
 
 html, body {
@@ -222,6 +223,19 @@ html {
   border-radius: 1rem;
   padding: 1rem;
   margin: 0.5rem;
+}
+
+.interactive {
+  pointer-events: auto;
+  cursor: pointer;
+  transition: 0.3s;
+  transform: scale(1);
+}
+.interactive:hover {
+  transform: scale(1.1);
+}
+.interactive:active {
+  transform: scale(0.9);
 }
 
 /*# sourceMappingURL=main.css.map */

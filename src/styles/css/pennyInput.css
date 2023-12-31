@@ -13,13 +13,14 @@
   position: relative;
   width: 100%;
   max-width: 500px;
-  opacity: 0.3;
-  background-color: red;
 }
 
-.circle {
+#circle {
   position: absolute;
-  border-radius: 1rem;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  background-color: white;
 }
 
 /*# sourceMappingURL=pennyInput.css.map */
