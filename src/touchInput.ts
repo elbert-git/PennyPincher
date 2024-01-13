@@ -1,5 +1,15 @@
 import { lerp } from "./mathUtilities"
 
+// !! this is very stupid way to handle x offset
+// because position is relative to the document but we want relative to the touch canvas
+function getXOffset(){
+	const docWidth = document.documentElement.clientWidth
+	const touchCanvasWidth = document.getElementById('touchCanvas')!.clientWidth
+	let xOffset = 0
+	if(docWidth > touchCanvasWidth){xOffset = (docWidth-touchCanvasWidth)/2}
+	return xOffset
+}
+
 // helper functions
 interface Vec2{
 	x:number, y:number
@@ -13,6 +23,7 @@ function lerpVec2(a:Vec2, b:Vec2, t:number):Vec2{
 		y:lerp(a.y, b.y, t)
 	}
 }
+
 
 export default class PennyInput{
 	elTouchCanvas:HTMLElement;
@@ -43,18 +54,18 @@ export default class PennyInput{
 		// track cursor position
 		window.addEventListener('mousemove', (e)=>{this.pointerPos = {x:e.clientX, y:e.clientY}})
 		window.addEventListener('touchmove', (e)=>{this.pointerPos = {x:e.touches[0].clientX, y:e.touches[0].clientY}})
-		// clicking state
-		this.elCircle.addEventListener('pointerdown', ()=>{this.clicked = true});
-		this.elTouchCanvas.addEventListener('pointerup', ()=>{this.clicked = false; this.pointerPos = this.getDefaultPosition()})
-		this.elTouchCanvas.addEventListener('mouseup', ()=>{this.clicked = false; this.pointerPos = this.getDefaultPosition()})
-		this.elTouchCanvas.addEventListener('touchend', ()=>{this.clicked = false; this.pointerPos = this.getDefaultPosition()})
+		// clicking state down
+		this.elCircle.addEventListener('mousedown', ()=>{this.setClick(true)});
+		this.elCircle.addEventListener('touchstart', ()=>{this.setClick(true)});
+		// clicking state up
+		window.addEventListener('mouseup', ()=>{this.setClick(false)})
+		window.addEventListener('touchend', ()=>{this.setClick(false)})
 
 		// update
 		setInterval(this.update.bind(this), 1000/20);
 		this.update();
 	}
 	update(){
-		console.log(this.clicked)
 		if(this.clicked){ // go to finger position
 			this.circlePosition = this.pointerPos;
 		}else{ // go to defautl position
@@ -72,13 +83,15 @@ export default class PennyInput{
 	}
 	getDefaultPosition(){
 		const mid:Vec2 = {
-			x:this.size.x/2,
+			x:this.size.x/2 + getXOffset(), // again this is a stupid fix
 			y:this.size.y - rem(3)
 		}
 		return mid
 	}
 	setCirclePos(pos:Vec2){
-		this.elCircle.setAttribute('style',`top: ${this.circlePosition.y-this.circleRadius/2}px; left:${this.circlePosition.x-this.circleRadius/2}px`)
+		const halfRadius = this.circleRadius/2
+		const xOffset = getXOffset();
+		this.elCircle.setAttribute('style',`top: ${pos.y-halfRadius}px; left:${pos.x-halfRadius-xOffset}px`)
 	}
 	calculateZoneLines(){
 		// --- generate horizontalLines
@@ -109,5 +122,9 @@ export default class PennyInput{
 		// ! temp logging
 		console.log(this.horizontalLines)
 		console.log(this.verticalLines)
+	}
+	setClick(isDown:boolean){
+		this.clicked = isDown
+		this.pointerPos  = this.getDefaultPosition()
 	}
 }

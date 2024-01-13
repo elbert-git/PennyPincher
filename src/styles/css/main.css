@@ -155,6 +155,12 @@
   width: 100%;
 }
 
+* {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
 .touchCanvasParent {
   position: absolute;
   top: 0;
@@ -177,7 +183,7 @@
   border-radius: 50%;
   width: 3rem;
   height: 3rem;
-  background-color: white;
+  background-color: red;
 }
 
 html, body {
