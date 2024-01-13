@@ -4,6 +4,7 @@ import App from './app.tsx'
 import './styles/css/main.css'
 import { DataManager } from './data/dataManager.ts'
 import PennyInput from './touchInput.ts'
+import TouchInputDebugCanvas from './debugCanvas.ts'
 
 // init data manager
 DataManager.init();
@@ -17,6 +18,9 @@ window.addEventListener('keydown', (e)=>{
 
 //start penny input
 const pennyInput = new PennyInput(); pennyInput
+const debugCanvas = new TouchInputDebugCanvas(pennyInput); debugCanvas
+
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
