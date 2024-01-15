@@ -1,5 +1,11 @@
 import { lerp } from "./mathUtilities"
+import { lerpVec2, Vec2 } from "./mathUtilities"
 
+
+// helper functions
+function rem(num=1){
+	return num*16
+}
 // !! this is very stupid way to handle x offset
 // because position is relative to the document but we want relative to the touch canvas
 function getXOffset(){
@@ -8,20 +14,6 @@ function getXOffset(){
 	let xOffset = 0
 	if(docWidth > touchCanvasWidth){xOffset = (docWidth-touchCanvasWidth)/2}
 	return xOffset
-}
-
-// helper functions
-interface Vec2{
-	x:number, y:number
-}
-function rem(num=1){
-	return num*16
-}
-function lerpVec2(a:Vec2, b:Vec2, t:number):Vec2{
-	return {
-		x:lerp(a.x, b.x, t),
-		y:lerp(a.y, b.y, t)
-	}
 }
 
 
@@ -34,10 +26,10 @@ export default class PennyInput{
 	// circle states
 	clicked:boolean = false;
 	circlePosition:Vec2 = {x:0, y:0}
-	circleRadius = rem(3);
+	circleRadius = rem(5);
+	currentZone:Vec2 = {x:0, y:0}
 	// pointer states
 	pointerPos:Vec2 = {x:0, y:0};
-
 	// pointer boundaries and zones
 	horizontalLines:Array<number> = []
 	verticalLines:Array<number> = []
@@ -69,7 +61,7 @@ export default class PennyInput{
 		if(this.clicked){ // go to finger position
 			this.circlePosition = this.pointerPos;
 		}else{ // go to defautl position
-			this.circlePosition = lerpVec2(this.circlePosition, this.getDefaultPosition(), 0.8);
+			this.circlePosition = lerpVec2(this.circlePosition, this.getDefaultPosition(), 0.5);
 		}
 		// update circle element
 		this.setCirclePos(this.circlePosition);
@@ -84,14 +76,14 @@ export default class PennyInput{
 	getDefaultPosition(){
 		const mid:Vec2 = {
 			x:this.size.x/2 + getXOffset(), // again this is a stupid fix
-			y:this.size.y - rem(3)
+			y:this.size.y - rem(5)
 		}
 		return mid
 	}
 	setCirclePos(pos:Vec2){
 		const halfRadius = this.circleRadius/2
 		const xOffset = getXOffset();
-		this.elCircle.setAttribute('style',`top: ${pos.y-halfRadius}px; left:${pos.x-halfRadius-xOffset}px`)
+		this.elCircle.setAttribute('style',`transition:0s; top: ${pos.y-halfRadius}px; left:${pos.x-halfRadius-xOffset}px`)
 	}
 	calculateZoneLines(){
 		// --- generate horizontalLines
@@ -99,29 +91,27 @@ export default class PennyInput{
 		const defaultYPos = this.getDefaultPosition().y
 		this.horizontalLines = [defaultYPos];
 		// add 10 lines
-		for(let i = 0; i < 10; i++){
-			this.horizontalLines.push(defaultYPos + (i+1)*rem(1))
+		for(let i = 0; i < 20; i++){
+			this.horizontalLines.push(defaultYPos - (i+1)*rem(5))
 		}
 		// --- generate vertical lines1
 		// get full size of the x
 		const fullX = this.size.x
 		// create first and last lines
-		const edgeWidthInPx = rem(1)
+		const edgeWidthInPx = rem(3)
 		const firstLine = edgeWidthInPx
 		const lastLine = fullX-edgeWidthInPx
 		// create the other 2 lines in the middle
 		const remainingX = this.size.x - edgeWidthInPx*2
 		const middleZoneWidth = remainingX/3
 		// combine it all in one array 
+		const xOffset = getXOffset()
 		this.verticalLines = [
-			firstLine,
-			firstLine + middleZoneWidth,
-			firstLine + middleZoneWidth*2,
-			lastLine
+			firstLine + xOffset,
+			firstLine + middleZoneWidth + xOffset,
+			firstLine + middleZoneWidth*2 + xOffset,
+			lastLine + xOffset
 		]
-		// ! temp logging
-		console.log(this.horizontalLines)
-		console.log(this.verticalLines)
 	}
 	setClick(isDown:boolean){
 		this.clicked = isDown
