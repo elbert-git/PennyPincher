@@ -27,7 +27,7 @@ export default class PennyInput{
 	clicked:boolean = false;
 	circlePosition:Vec2 = {x:0, y:0}
 	circleRadius = rem(5);
-	currentZone:Vec2 = {x:0, y:0}
+	prevZone:Vec2 = {x:0, y:0}
 	// pointer states
 	pointerPos:Vec2 = {x:0, y:0};
 	// pointer boundaries and zones
@@ -65,6 +65,8 @@ export default class PennyInput{
 		}
 		// update circle element
 		this.setCirclePos(this.circlePosition);
+		// listen for cicrcle crossing boundaries
+		this.listenForZoneChanges();
 	}
 	resize(){
 		this.size = {
@@ -89,7 +91,7 @@ export default class PennyInput{
 		// --- generate horizontalLines
 		// start from default position
 		const defaultYPos = this.getDefaultPosition().y
-		this.horizontalLines = [defaultYPos];
+		this.horizontalLines = []
 		// add 10 lines
 		for(let i = 0; i < 20; i++){
 			this.horizontalLines.push(defaultYPos - (i+1)*rem(5))
@@ -116,5 +118,39 @@ export default class PennyInput{
 	setClick(isDown:boolean){
 		this.clicked = isDown
 		this.pointerPos  = this.getDefaultPosition()
+	}
+	calculateCurrentZone(){
+		const finalPos:Vec2 = {x:0, y:0}
+		const allVerticalLines = [0, ...this.verticalLines, document.documentElement.clientWidth]
+		// console.log(this.size.x, allVerticalLines, this.circlePosition.x)
+		// check x zone
+		for (let index = 0; index < allVerticalLines.length-1; index++) {
+			if(this.circlePosition.x > allVerticalLines[index] && this.circlePosition.x < allVerticalLines[index+1]){
+				finalPos.x = index
+				break;
+			}
+		}
+		// check y zone
+		const allHorizontalLines = [this.size.y, ...this.horizontalLines, 0]
+		for (let index = 0; index < allHorizontalLines.length-1; index++) {
+			if(this.circlePosition.y < allHorizontalLines[index] && this.circlePosition.y > allHorizontalLines[index+1]){
+				finalPos.y = index
+				break;
+			}
+		}
+		return finalPos;
+	}
+	listenForZoneChanges(){
+		// get current zone
+		const currentZone = this.calculateCurrentZone()
+		// check for zone changes
+		if(currentZone.y !== this.prevZone.y && this.clicked){
+			this.onLinesCrossed(currentZone.y - this.prevZone.y, currentZone.x)
+		}
+		// save zone for next update
+		this.prevZone = currentZone
+	}
+	onLinesCrossed(relativeY:number, xZone:number){
+		console.log(relativeY, xZone)
 	}
 }

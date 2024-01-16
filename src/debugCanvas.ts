@@ -16,7 +16,6 @@ export default class TouchInputDebugCanvas{
 		this.resize()
 	}
 	update(){
-		console.log('update')
 		const ctx = this.ctx
 		// clear screen
 		ctx.beginPath();
