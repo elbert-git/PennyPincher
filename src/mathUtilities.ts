@@ -16,3 +16,24 @@ export function lerpVec2(a:Vec2, b:Vec2, t:number):Vec2{
 		y:lerp(a.y, b.y, t)
 	}
 }
+
+export function rem(num=1){
+	return num*16
+}
+
+export function linearRegression(coordinates:Vec2[]){
+    const n = coordinates.length;
+    let sumX = 0;
+    let sumY = 0;
+    let sumXY = 0;
+    let sumXX = 0;
+    coordinates.forEach(({ x, y }) => {
+        sumX += x;
+        sumY += y;
+        sumXY += x * y;
+        sumXX += x * x;
+    });
+    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+    return [slope, intercept];
+}

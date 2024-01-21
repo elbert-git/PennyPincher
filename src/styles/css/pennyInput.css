@@ -38,4 +38,11 @@
   pointer-events: none;
 }
 
+.inputUIRoot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
 /*# sourceMappingURL=pennyInput.css.map */

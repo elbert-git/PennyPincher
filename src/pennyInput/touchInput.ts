@@ -1,25 +1,11 @@
-import { lerp } from "./mathUtilities"
-import { lerpVec2, Vec2 } from "./mathUtilities"
+import { lerpVec2, Vec2, rem } from "../mathUtilities"
+import getXOffset from "./getXoffset";
 
 
-// helper functions
-function rem(num=1){
-	return num*16
-}
-// !! this is very stupid way to handle x offset
-// because position is relative to the document but we want relative to the touch canvas
-function getXOffset(){
-	const docWidth = document.documentElement.clientWidth
-	const touchCanvasWidth = document.getElementById('touchCanvas')!.clientWidth
-	let xOffset = 0
-	if(docWidth > touchCanvasWidth){xOffset = (docWidth-touchCanvasWidth)/2}
-	return xOffset
-}
-
-
+let instance:PennyInput|null = null;
 export default class PennyInput{
-	elTouchCanvas:HTMLElement;
-	elCircle:HTMLElement;
+	elTouchCanvas!:HTMLElement;
+	elCircle!:HTMLElement;
 	size:Vec2 ={x:0, y:0}
 
 	// states
@@ -35,6 +21,7 @@ export default class PennyInput{
 	verticalLines:Array<number> = []
 
 	constructor(){
+		if(instance){return instance}
 		// get elements
 		this.elTouchCanvas = document.getElementById('touchCanvas')!
 		this.elCircle = document.getElementById('circle')!

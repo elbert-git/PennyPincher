@@ -7,13 +7,21 @@
     <title>Vite + React + TS</title>
   </head>
   <body>
+    <!-- react root -->
     <div id="root"></div>
+    <!-- input ui -->
+    <div class="inputUIRoot fillWidth fillHeight">
+      <canvas id="inputBG"></canvas>
+      <div id="inputLabel"></div>
+      <div id="bottomButtons"></div>
+    </div>
+    <!-- touch canvas -->
     <div class="touchCanvasParent">
 			<div id="touchCanvas">
 				<div id="circle" class="interactive"></div>
 			</div>
 		</div>
-		<canvas id="touchInputDebugCanvas"/>
+		<canvas id="touchInputDebugCanvas"></canvas>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

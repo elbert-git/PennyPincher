@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client'
 import App from './app.tsx'
 import './styles/css/main.css'
 import { DataManager } from './data/dataManager.ts'
-import PennyInput from './touchInput.ts'
-import TouchInputDebugCanvas from './debugCanvas.ts'
+import PennyInput from './pennyInput/touchInput.ts'
+import TouchInputDebugCanvas from './pennyInput/debugCanvas.ts'
+import InputBG from './pennyInput/inputBG.ts'
 
 // init data manager
 DataManager.init();
@@ -18,7 +19,8 @@ window.addEventListener('keydown', (e)=>{
 
 //start penny input
 const pennyInput = new PennyInput(); pennyInput
-const debugCanvas = new TouchInputDebugCanvas(pennyInput); debugCanvas
+// const debugCanvas = new TouchInputDebugCanvas(pennyInput); debugCanvas
+const inputBG = new InputBG();
 
 
 

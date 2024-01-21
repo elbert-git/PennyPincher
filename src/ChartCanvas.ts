@@ -1,28 +1,7 @@
 import { LogEntry } from "./data/dataInterfaces";
 import { DataManager } from "./data/dataManager";
-import { lerp } from "./mathUtilities";
+import { lerp, linearRegression } from "./mathUtilities";
 
-
-interface Coordinate {
-    x: number;
-    y: number;
-}
-function linearRegression(coordinates: Coordinate[]){
-    const n = coordinates.length;
-    let sumX = 0;
-    let sumY = 0;
-    let sumXY = 0;
-    let sumXX = 0;
-    coordinates.forEach(({ x, y }) => {
-        sumX += x;
-        sumY += y;
-        sumXY += x * y;
-        sumXX += x * x;
-    });
-    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-    const intercept = (sumY - slope * sumX) / n;
-    return [slope, intercept];
-}
 
 export class ChartCanvas{
   element:HTMLCanvasElement|null = null;

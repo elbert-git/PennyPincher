@@ -1,4 +1,4 @@
-import { Vec2 } from './mathUtilities.ts';
+import { Vec2 } from '../mathUtilities.ts';
 import PennyInput from './touchInput.ts'
 
 export default class TouchInputDebugCanvas{
