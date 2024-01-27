@@ -37,7 +37,8 @@ export default class PennyInputSystem{
 		//update size
 		this.size.x = document.documentElement.clientWidth
 		this.size.y = document.documentElement.clientHeight
-		//calculateLines
+		//calculate key positions
+		this.defaultPennyButtonPosition = {x:this.size.x/2, y: this.size.y-rem(5)}
 		this.calculateLines()
 		//update submodules
 		this.inputBGCanvas.resize(this.size, this.lines);
@@ -51,7 +52,6 @@ export default class PennyInputSystem{
 		for(let i = 0; i < 20; i++){
 			this.lines.horizontal.push(defaultYPos - (i+1)*rem(5))
 		}
-		 
 		// --- generate vertical lines1
 		// get full size of the x
 		const fullX = this.size.x - getXOffset()*2;
@@ -60,17 +60,15 @@ export default class PennyInputSystem{
 		const firstLine = edgeWidthInPx
 		const lastLine = fullX-edgeWidthInPx
 		// create the other 2 lines in the middle
-		const remainingX = this.size.x - edgeWidthInPx*2
+		const remainingX = fullX - edgeWidthInPx*2
 		const middleZoneWidth = remainingX/3
 		// combine it all in one array 
 		const xOffset = getXOffset()
 		this.lines.vertical = [
 			firstLine + xOffset,
-			//here is problem
-			// firstLine + middleZoneWidth + xOffset,
-			// firstLine + middleZoneWidth*2 + xOffset,
+			firstLine + middleZoneWidth + xOffset,
+			firstLine + middleZoneWidth*2 + xOffset,
 			lastLine + xOffset
 		]
-		console.log(this.lines)
 	}
 }
