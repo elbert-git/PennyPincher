@@ -1,7 +1,7 @@
 import { Vec2, rem, getXOffset } from "../mathUtilities";
-import { Lines } from "./newPennyInput"
+import { Lines } from "./PennyInput"
 
-export default class InputBGCanvas{
+export default class PennyInputBGCanvas{
 	elCanvas:HTMLCanvasElement = null!;
 	lines:Lines = {horizontal:[],  vertical:[]}
 	ctx:CanvasRenderingContext2D = null!;
@@ -16,6 +16,7 @@ export default class InputBGCanvas{
 		// draw bg
 		this.drawTracks();
 		this.drawTreads();
+    this.drawGradient();
 		this.drawText();
 		//for debug
 		// this.drawDebugLines()
@@ -103,7 +104,7 @@ export default class InputBGCanvas{
       tinyWidth,
       this.size.y);
     // fill
-    ctx.fillStyle = '#ffa719'
+    ctx.fillStyle = '#f58700'
     ctx.fill();
     // draw vertical Lines
 		verticalLines.forEach((line)=>{
@@ -167,4 +168,22 @@ export default class InputBGCanvas{
     ctx.rotate(-Math.PI/2)
     ctx.translate(-x, -y);
 	}
+  drawGradient(){
+    const ctx = this.ctx;
+    const horizontalLines = this.lines.horizontal;
+    // Create gradient
+    const grd = ctx.createLinearGradient(50, 0, 50, this.size.y);
+    // calc middle transparent height
+    const mid = horizontalLines[1]/this.size.y
+    grd.addColorStop(0, "#FF9901");
+    grd.addColorStop(0.2, "#FF9901");
+    grd.addColorStop(mid, "rgba(255, 186, 1, 0)");
+    grd.addColorStop(1, "#FFBA01");
+
+    // gradient
+    ctx.beginPath();
+    ctx.rect(0,0,this.size.x, this.size.y);
+    ctx.fillStyle = grd;
+    ctx.fill();
+  }
 }

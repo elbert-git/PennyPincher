@@ -1,5 +1,6 @@
 import { Vec2, rem, getXOffset } from "../mathUtilities"
-import InputBGCanvas from "./inputBGCanvas";
+import PennyButton from "./PennyButton";
+import PennyInputBGCanvas from "./PennyInputBGCanvas";
 
 export interface Lines{
 	horizontal:Array<number>,
@@ -17,7 +18,8 @@ export default class PennyInputSystem{
 		vertical: []
 	}
 	// submodules
-	inputBGCanvas:InputBGCanvas = new InputBGCanvas(document.getElementById('inputBG') as HTMLCanvasElement);
+	inputBGCanvas:PennyInputBGCanvas = new PennyInputBGCanvas(document.getElementById('inputBG') as HTMLCanvasElement);
+	pennyButton:PennyButton = new PennyButton(document.getElementById('pennyButton') as HTMLDivElement)
 	
 	constructor(){
 		// singleton
@@ -31,6 +33,7 @@ export default class PennyInputSystem{
 	update(){
 		//update submodules
 		this.inputBGCanvas.update();
+		this.pennyButton.update();
 	}
 	
 	resize(){
@@ -42,6 +45,7 @@ export default class PennyInputSystem{
 		this.calculateLines()
 		//update submodules
 		this.inputBGCanvas.resize(this.size, this.lines);
+		this.pennyButton.resize(this.size, this.defaultPennyButtonPosition, this.lines)
 	}
 	calculateLines(){
 		// --- generate horizontalLines
