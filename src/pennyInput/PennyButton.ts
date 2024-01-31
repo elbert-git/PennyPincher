@@ -54,6 +54,8 @@ export default class PennyButton{
     }
     setClick(b:boolean){
         this.isClicked = b;
+		this.buttonPosition = this.defaultButtonPosition;
+		this.pointerPosition = this.defaultButtonPosition;
     }
 	calculateCurrentZone(){
 		const finalPos:Vec2 = {x:0, y:0}

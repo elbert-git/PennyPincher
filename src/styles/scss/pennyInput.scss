@@ -42,3 +42,39 @@
 	top:0; left:0;
 	pointer-events: none;
 }
+
+.inputUI-top-bottom-container{
+	width: 100%;
+	height: 100%;
+
+	position: absolute;
+	top:0; left:0;
+	pointer-events: none;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
+
+#topUI{
+	width: 100%;
+	max-width: 500px;
+	padding:1rem;
+	h1{
+		font-weight: 800;
+		font-size: 3rem;
+		margin: 1rem 0rem;
+	}
+	.card{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.categoryPill{
+		border-radius: 2rem;
+		background-color: grey;
+		padding: 0.5rem 1rem;
+	}
+}

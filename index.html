@@ -12,8 +12,25 @@
     <!-- input ui -->
     <div class="inputUIRoot fillWidth fillHeight">
       <canvas id="inputBG"></canvas>
-      <div id="inputLabel"></div>
-      <div id="bottomButtons"></div>
+      <div class="inputUI-top-bottom-container ">
+        <div id="topUI">
+          <div class="card">
+            <h1>$00.00</h1>
+            <div class="categoryPill">category</div>
+          </div>
+        </div>
+        <div id="bottomUI fillWidth">
+          <div class="card">
+            <div class="bottomUI-top">
+              <div class="card">Cancel</div>
+              <div class="bottomUI-bottomContainer">
+                <div id="confirmButton" class="card"></div>
+              </div>
+            </div>
+            <div class="bottomUI-top"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- touch canvas -->
     <div class="touchCanvasParent">

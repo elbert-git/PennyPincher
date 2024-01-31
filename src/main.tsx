@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './app.tsx'
+import App from './app'
 import './styles/css/main.css'
-import { DataManager } from './data/dataManager.ts'
-import PennyInputSystem from './pennyInput/PennyInput.ts'
+import { DataManager } from './data/dataManager'
+import PennyInputSystem from './pennyInput/PennyInput'
 
 // init data manager
 DataManager.init();
@@ -15,7 +15,7 @@ window.addEventListener('keydown', (e)=>{
   }
 })
 
-//new pennyInput
+// penny pincher input system
 new PennyInputSystem();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
