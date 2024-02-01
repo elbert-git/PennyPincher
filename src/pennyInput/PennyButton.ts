@@ -1,5 +1,6 @@
 import { Vec2, lerpVec2, getXOffset, rem } from "../mathUtilities"
 import { Lines } from "./PennyInput";
+import PennyUI from "./pennyUI";
 
 export default class PennyButton{
     // elements
@@ -54,6 +55,11 @@ export default class PennyButton{
     }
     setClick(b:boolean){
         this.isClicked = b;
+		//trigger ui event
+		if(b){
+			new PennyUI().showCanvas(true)
+			new PennyUI().showTopUI(true)
+		}
 		this.buttonPosition = this.defaultButtonPosition;
 		this.pointerPosition = this.defaultButtonPosition;
     }

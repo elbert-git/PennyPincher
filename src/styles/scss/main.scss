@@ -62,3 +62,7 @@ html{
   &:hover{transform: scale(1.1);}
   &:active{transform: scale(0.9);}
 }
+
+.transition{
+  transition: 0.3s;
+}
