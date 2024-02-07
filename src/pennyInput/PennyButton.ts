@@ -1,9 +1,12 @@
 import { Vec2, lerpVec2, getXOffset, rem } from "../mathUtilities"
 import { Lines } from "./PennyInput";
+import PennyUI from "./pennyUI";
 
 export default class PennyButton{
+		static instance:PennyButton|null = null;
     // elements
-    elCircle:HTMLDivElement;
+    elCircle!:HTMLDivElement;
+		elPennyButtonVisual!:HTMLDivElement;
     // key variables related to size
     size:Vec2 = {x:0,y:0}
     lines:Lines = {horizontal:[], vertical:[]}
@@ -11,25 +14,30 @@ export default class PennyButton{
     // states
     isClicked = false;
     buttonPosition:Vec2 = {x:0,y:0}
-	buttonRadius = rem(5/2);
+		buttonRadius = rem(5/2);
     pointerPosition:Vec2 = {x:0,y:0}
-	prevZone:Vec2 = {x:0, y:0}
+		prevZone:Vec2 = {x:0, y:0}
+		hasEnteredValue = false
     // callbacks
     onZoneChanged:(yChange:number, xZone:number)=>void = (yChange:number, xZone:number)=>{
-        console.log(yChange, xZone)
+			console.log(yChange, xZone)
     };
 
-    constructor(_elCircle:HTMLDivElement){
-        //get elements
-        this.elCircle = _elCircle
-        // click  events
-		this.elCircle.addEventListener('mousedown', ()=>{this.setClick(true)});
-		this.elCircle.addEventListener('touchstart', ()=>{this.setClick(true)});
-		window.addEventListener('mouseup', ()=>{this.setClick(false)})
-		window.addEventListener('touchend', ()=>{this.setClick(false)})
-        // listening for cursor positions
-		window.addEventListener('mousemove', (e)=>{this.pointerPosition = {x:e.clientX, y:e.clientY}})
-		window.addEventListener('touchmove', (e)=>{this.pointerPosition = {x:e.touches[0].clientX, y:e.touches[0].clientY}})
+    constructor(){
+			// singleton
+			if(PennyButton.instance){return PennyButton.instance}
+			PennyButton.instance = this;
+			//get elements
+			this.elCircle = document.getElementById("pennyButton") as HTMLDivElement;
+			this.elPennyButtonVisual = document.getElementById("pennyButtonVisual") as HTMLDivElement;
+			// click  events
+			this.elCircle.addEventListener('mousedown', ()=>{this.setClick(true)});
+			this.elCircle.addEventListener('touchstart', ()=>{this.setClick(true)});
+			window.addEventListener('mouseup', ()=>{this.setClick(false)})
+			window.addEventListener('touchend', ()=>{this.setClick(false)})
+					// listening for cursor positions
+			window.addEventListener('mousemove', (e)=>{this.pointerPosition = {x:e.clientX, y:e.clientY}})
+			window.addEventListener('touchmove', (e)=>{this.pointerPosition = {x:e.touches[0].clientX, y:e.touches[0].clientY}})
     }
     update(){
 		if(this.isClicked){ // go to finger position
@@ -47,14 +55,40 @@ export default class PennyButton{
 		const xOffset = getXOffset();
 		this.elCircle.setAttribute('style',`transition:0s; top: ${pos.y-halfRadius}px; left:${pos.x-this.buttonRadius-xOffset}px`)
 	}
-    resize(size:Vec2, defaultPosition:Vec2, lines:Lines){
-        this.size = size;
-        this.defaultButtonPosition = defaultPosition;
-        this.lines = lines
-    }
-    setClick(b:boolean){
-        this.isClicked = b;
-    }
+	resize(size:Vec2, defaultPosition:Vec2, lines:Lines){
+			this.size = size;
+			this.defaultButtonPosition = defaultPosition;
+			this.lines = lines
+	}
+	setClick(b:boolean){
+			// prevent click up if ui buttom is up
+			if(new PennyUI().bottomUIisUp){return null}
+
+			// set state
+			this.isClicked = b;
+			// handle click up
+			if(b){ // on button down
+				new PennyUI().toggleUI(b);
+			}else{ // on button up
+				//check what to do on button up
+				if(this.hasEnteredValue){ // has entered value then bring bottom up
+					new PennyUI().toggleBottom(true)
+					// also fade the button out
+					this.setVisible(false)
+				}else{ // has entered value then animate whole ui out
+					new PennyUI().toggleUI(false)
+				}
+				// reset has entered value
+				this.hasEnteredValue = false
+			}
+	}
+	setVisible(b:boolean){
+		if(b){
+			this.elPennyButtonVisual.classList.remove("fadeOut")
+		}else{
+			this.elPennyButtonVisual.classList.add("fadeOut")
+		}
+	}
 	calculateCurrentZone(){
 		const finalPos:Vec2 = {x:0, y:0}
 		const allVerticalLines = [0, ...this.lines.vertical, document.documentElement.clientWidth]
@@ -79,6 +113,8 @@ export default class PennyButton{
 	listenForZoneChanges(){
 		// get current zone
 		const currentZone = this.calculateCurrentZone()
+		// check if has entered value
+		if((currentZone.y - this.prevZone.y) !== 0 && this.isClicked){this.hasEnteredValue = true};
 		// check for zone changes
 		if(currentZone.y !== this.prevZone.y && this.isClicked){
 			this.onZoneChanged(currentZone.y - this.prevZone.y, currentZone.x)

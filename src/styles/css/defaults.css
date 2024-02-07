@@ -110,8 +110,14 @@
   display: none;
 }
 
+.opacity {
+  transition: 0.3s;
+  opacity: 1;
+}
+
 .fadeOut {
   opacity: 0;
+  pointer-events: none !important;
 }
 
 /* layering over */

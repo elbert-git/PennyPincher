@@ -45,3 +45,14 @@ export function getXOffset(){
 	if(docWidth > touchCanvasWidth){xOffset = (docWidth-touchCanvasWidth)/2}
 	return xOffset
 }
+
+
+// Format the price above to USD using the locale, style, and currency.
+let USDollar = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
+
+export function formatCurrency(num:number){
+    return USDollar.format(num)
+}

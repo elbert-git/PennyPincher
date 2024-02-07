@@ -11,7 +11,6 @@ export default class PennyInputSystem{
 	static instance:PennyInputSystem|null = null
 	//key variables
 	size:Vec2 = {x:0, y:0}
-	// todo key positions
 	defaultPennyButtonPosition:Vec2 = {x:0, y:0}
 	lines:Lines = {
 		horizontal: [],
@@ -19,7 +18,7 @@ export default class PennyInputSystem{
 	}
 	// submodules
 	inputBGCanvas:PennyInputBGCanvas = new PennyInputBGCanvas(document.getElementById('inputBG') as HTMLCanvasElement);
-	pennyButton:PennyButton = new PennyButton(document.getElementById('pennyButton') as HTMLDivElement)
+	pennyButton:PennyButton = new PennyButton()
 	
 	constructor(){
 		// singleton
@@ -35,7 +34,6 @@ export default class PennyInputSystem{
 		this.inputBGCanvas.update();
 		this.pennyButton.update();
 	}
-	
 	resize(){
 		//update size
 		this.size.x = document.documentElement.clientWidth
