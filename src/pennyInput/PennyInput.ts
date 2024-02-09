@@ -1,6 +1,7 @@
 import { Vec2, rem, getXOffset } from "../mathUtilities"
 import PennyButton from "./PennyButton";
 import PennyInputBGCanvas from "./PennyInputBGCanvas";
+import PennyUI from "./pennyUI";
 
 export interface Lines{
 	horizontal:Array<number>,
@@ -19,6 +20,7 @@ export default class PennyInputSystem{
 	// submodules
 	inputBGCanvas:PennyInputBGCanvas = new PennyInputBGCanvas(document.getElementById('inputBG') as HTMLCanvasElement);
 	pennyButton:PennyButton = new PennyButton()
+	pennyUI:PennyUI = new PennyUI();
 	
 	constructor(){
 		// singleton

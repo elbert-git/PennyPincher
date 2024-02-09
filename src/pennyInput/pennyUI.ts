@@ -1,6 +1,9 @@
 import { formatCurrency } from "../mathUtilities";
 import PennyButton from "./PennyButton";
 import { categories } from "../data/constants";
+import { DataManager } from "../data/dataManager";
+import { LogEntry } from "../data/dataInterfaces";
+import {v4 as uuid} from 'uuid';
 
 export default class PennyUI{
   static instance:PennyUI|null = null;
@@ -34,9 +37,16 @@ export default class PennyUI{
     }
     this.setCategory("")
     this.elConfirmButton!.addEventListener("pointerup", ()=>{
-      // todo update the data manager with function
-      console.log("going to update the data manager")
-      // rest ui
+      // update the data manager with function
+      const newEntry:LogEntry = {
+        amount:this.currentNumber,
+        categoryKey:this.currentCategory,
+        categoryColor: categories[this.currentCategory].color,
+        timeStamp: Date.now(),
+        id:uuid()
+      }
+      DataManager.addEntry(newEntry)
+      // reset ui
       this.toggleUI(false);
       this.updateMainLabelByNumber(0);
       this.setCategory("")

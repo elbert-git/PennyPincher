@@ -1,19 +1,26 @@
 import { DataManager } from "../data/dataManager"
 import Card from "../components/Card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { categories } from "../data/constants";
+import { formatCurrency } from "../mathUtilities";
 
-function RecordEntry(props:{amount:number, categoryColor:string, categoryKey:string}){
+function RecordEntry(props:{amount:string, categoryColor:string, categoryKey:string}){
   return <div className="recordEntry flex flexJustifyBetween" style={{backgroundColor:props.categoryColor}}>
     <div><strong>{props.categoryKey}</strong></div>
-    <div><strong>{`$${props.amount}`}</strong></div>
+    <div><strong>{`${props.amount}`}</strong></div>
   </div>
 }
 
 export default function Records(){
-  const records = DataManager.cache!.logEntries;
+  // states
+  const [records, setNewRecords] = useState(DataManager.cache!.logEntries)
+  // DataManager.updateState = setNewRecords;
+  useEffect(()=>{console.log('state udpated')}, [records])
+  // const records = DataManager.cache!.logEntries;
   const allCats = Object.keys(categories)
   const [visibleCategories ,setVisibleCategories] = useState<Array<string>>(allCats)
+
+  // change state when datamanger changes
 
   const toggleCategories = (key:string)=>{
     if(visibleCategories.includes(key)){
@@ -48,8 +55,8 @@ export default function Records(){
         })}
       </div>
       {/* entries */}
-      {records.filter(entry=>visibleCategories.includes(entry.categoryKey)).map((entry)=>{
-        return <RecordEntry key={entry.id} amount={entry.amount} categoryColor={entry.categoryColor} categoryKey={entry.categoryKey}></RecordEntry>
+      {records.filter(entry=>visibleCategories.includes(entry.categoryKey)).reverse().map((entry)=>{
+        return <RecordEntry key={entry.id} amount={formatCurrency(entry.amount)} categoryColor={entry.categoryColor} categoryKey={entry.categoryKey}></RecordEntry>
       })}
     </Card>
   </div>

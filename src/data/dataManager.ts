@@ -1,5 +1,6 @@
 import { createFakeUserData } from "./createDefaultData";
 import { LogEntry, UserData } from "./dataInterfaces";
+import { useReducer } from "react";
 
 // local storage key
 export const localStorageKey = 'pennyPincher'
@@ -13,10 +14,10 @@ function convertEpochToDateString(epochTimestamp: number): string {
 }
 
 
-
 // main class
 export class DataManager{
   static cache:UserData|null = null;
+  static updateState:(newEntry:any)=>any = ()=>{const [, forceUpdate] = useReducer(x => x + 1, 0)};
   constructor(){}
   static init(){
     // load from disk
@@ -45,5 +46,15 @@ export class DataManager{
       else{finalData[dateString] = [log]}
     })
     return finalData
+  }
+  static addEntry(entry:LogEntry){
+    console.log('from data manager', 'has saved entry')
+    // add to cache
+    const newCache = DataManager.cache;
+    newCache!.logEntries.push(entry);
+    // save cache 
+    DataManager.SaveData(newCache!)
+    // update react
+    DataManager.updateState(DataManager.cache!.logEntries)
   }
 }
