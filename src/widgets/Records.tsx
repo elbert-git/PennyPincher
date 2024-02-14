@@ -1,6 +1,6 @@
 import { DataManager } from "../data/dataManager"
 import Card from "../components/Card";
-import { useEffect, useState } from "react";
+import { useState, } from "react";
 import { categories } from "../data/constants";
 import { formatCurrency } from "../mathUtilities";
 
@@ -11,17 +11,14 @@ function RecordEntry(props:{amount:string, categoryColor:string, categoryKey:str
   </div>
 }
 
+// DataManager.updateState = customDispatch()
+
 export default function Records(){
   // states
-  const [records, setNewRecords] = useState(DataManager.cache!.logEntries)
-  // DataManager.updateState = setNewRecords;
-  useEffect(()=>{console.log('state udpated')}, [records])
-  // const records = DataManager.cache!.logEntries;
+  const [records, setRecords] = useState(DataManager.cache!.logEntries)
   const allCats = Object.keys(categories)
   const [visibleCategories ,setVisibleCategories] = useState<Array<string>>(allCats)
-
-  // change state when datamanger changes
-
+  
   const toggleCategories = (key:string)=>{
     if(visibleCategories.includes(key)){
       const newState = visibleCategories.filter(currKey=>!(currKey===key))
