@@ -26,7 +26,6 @@
 }
 
 .pennyButtonVisual {
-  background-color: red;
   border-radius: 50%;
   width: 5rem;
   height: 5rem;
@@ -188,6 +187,10 @@
 
 .side2.fadeOut #confirmButton {
   pointer-events: none;
+}
+
+.bottomBar {
+  transform: scale(2);
 }
 
 /*# sourceMappingURL=pennyInput.css.map */

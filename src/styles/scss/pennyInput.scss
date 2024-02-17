@@ -24,7 +24,7 @@
 	position:absolute;
 }
 .pennyButtonVisual{
-	background-color: red;
+	// background-color: red;
 	border-radius:50%;
 	width: 5rem;
 	height: 5rem;
@@ -190,4 +190,9 @@
 	#confirmButton{
 		pointer-events: none;
 	}
+}
+
+
+.bottomBar{
+	transform:scale(2)
 }

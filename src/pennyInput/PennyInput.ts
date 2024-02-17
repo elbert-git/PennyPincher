@@ -52,9 +52,10 @@ export default class PennyInputSystem{
 		// start from default position
 		const defaultYPos = this.defaultPennyButtonPosition.y
 		this.lines.horizontal = []
+		const height = (document.documentElement.clientWidth > 500) ? rem(5) : rem(3)
 		// add 10 lines
 		for(let i = 0; i < 20; i++){
-			this.lines.horizontal.push(defaultYPos - (i+1)*rem(5))
+			this.lines.horizontal.push(defaultYPos - (i+1)*height)
 		}
 		// --- generate vertical lines1
 		// get full size of the x

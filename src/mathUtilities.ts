@@ -56,3 +56,9 @@ let USDollar = new Intl.NumberFormat('en-US', {
 export function formatCurrency(num:number){
     return USDollar.format(num)
 }
+
+export function isValidNumber(str: string): boolean {
+  // Use regex to match valid number patterns
+  const numberRegex = /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?$/;
+  return numberRegex.test(str);
+}

@@ -1,6 +1,7 @@
 @use './defaults.scss';
 @use './widgets.scss';
 @use './pennyInput.scss';
+@use './popUp.scss';
 
 // *{outline: red 1px solid;}
 
@@ -8,6 +9,8 @@
 html, body{
   width: 100%;
   height: 100%;
+
+  overflow: hidden;
 }
 body{
   display: flex;
@@ -61,4 +64,19 @@ html{
   transform: scale(1);
   &:hover{transform: scale(1.1);}
   &:active{transform: scale(0.9);}
+}
+
+
+
+// remove number input arrow buttons
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

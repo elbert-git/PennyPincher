@@ -38,6 +38,7 @@ export default class PennyButton{
 					// listening for cursor positions
 			window.addEventListener('mousemove', (e)=>{this.pointerPosition = {x:e.clientX, y:e.clientY}})
 			window.addEventListener('touchmove', (e)=>{this.pointerPosition = {x:e.touches[0].clientX, y:e.touches[0].clientY}})
+			this.elCircle.addEventListener('touchmove', (e)=>{e.preventDefault()}, {passive:false})
     }
     update(){
 		if(this.isClicked){ // go to finger position
@@ -66,6 +67,11 @@ export default class PennyButton{
 
 			// set state
 			this.isClicked = b;
+
+			// prevent position jumps
+			this.pointerPosition = this.defaultButtonPosition;
+			this.buttonPosition = this.defaultButtonPosition;
+
 			// handle click up
 			if(b){ // on button down
 				new PennyUI().toggleUI(b);
@@ -122,4 +128,10 @@ export default class PennyButton{
 		// save zone for next update
 		this.prevZone = currentZone
 	}
+
+	// call this to Disable
+	enableScroll(b:boolean) {}
 }
+
+
+
