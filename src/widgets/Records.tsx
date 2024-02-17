@@ -15,7 +15,7 @@ function RecordEntry(props:{amount:string, categoryColor:string, categoryKey:str
 
 export default function Records(){
   // states
-  const [records, setRecords] = useState(DataManager.cache!.logEntries)
+  const [records, ] = useState(DataManager.cache!.logEntries)
   const allCats = Object.keys(categories)
   const [visibleCategories ,setVisibleCategories] = useState<Array<string>>(allCats)
   

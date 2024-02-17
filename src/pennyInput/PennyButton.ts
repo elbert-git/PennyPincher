@@ -130,7 +130,7 @@ export default class PennyButton{
 	}
 
 	// call this to Disable
-	enableScroll(b:boolean) {}
+	// enableScroll(b:boolean) {}
 }
 
 
