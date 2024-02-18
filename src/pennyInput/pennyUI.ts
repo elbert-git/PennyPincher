@@ -37,19 +37,23 @@ export default class PennyUI{
     }
     this.setCategory("")
     this.elConfirmButton!.addEventListener("pointerup", ()=>{
-      // update the data manager with function
-      const newEntry:LogEntry = {
-        amount:this.currentNumber,
-        categoryKey:this.currentCategory,
-        categoryColor: categories[this.currentCategory].color,
-        timeStamp: Date.now(),
-        id:uuid()
+      if(this.currentNumber > 0){
+        // update the data manager with function
+        const newEntry:LogEntry = {
+          amount:this.currentNumber,
+          categoryKey:this.currentCategory,
+          categoryColor: categories[this.currentCategory].color,
+          timeStamp: Date.now(),
+          id:uuid()
+        }
+        DataManager.addEntry(newEntry)
+        // reset ui
+        this.toggleUI(false);
+        this.updateMainLabelByNumber(0);
+        this.setCategory("")
+      }else{
+        alert("not a valid number")
       }
-      DataManager.addEntry(newEntry)
-      // reset ui
-      this.toggleUI(false);
-      this.updateMainLabelByNumber(0);
-      this.setCategory("")
     })
 
     // subscribe to penny button zone changes
@@ -83,6 +87,7 @@ export default class PennyUI{
     }
   }
   updateMainLabelByNumber(num:number){
+    if(num<0){return null} // prevent negative values
     this.currentNumber = num
     this.elMainLabel!.innerText = `${formatCurrency(this.currentNumber)}`
   }
@@ -91,6 +96,7 @@ export default class PennyUI{
     const multiplier = [0.01, 0.10, 1, 10, 100]
     // update state
     this.currentNumber += yChange * multiplier[xZone]
+    if(this.currentNumber < 0){this.currentNumber = 0} // prevent negative values
     // update ui
     this.elMainLabel!.innerText = `${formatCurrency(this.currentNumber)}`
     // play animation

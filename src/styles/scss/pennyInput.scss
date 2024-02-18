@@ -142,6 +142,11 @@
 
 .side1{
 	transition: 0.3s;
+	max-height: 40rem;
+
+	&.fadeOut{
+		max-height: 4rem;
+	}
 }
 .side2{
 	transition: 0.3s;
@@ -166,7 +171,7 @@
 	gap:1rem;
 }
 .categoryPill{
-	font-size: 1.25rem;
+	font-size: 1rem;
 	font-weight: 500;
 	border-radius:  2rem;
 	padding: 0.5rem 1rem;
@@ -178,7 +183,7 @@
 
 // confirm button
 #confirmButton{
-	font-size: 3rem;
+	font-size: 2rem;
 	font-weight: 800;
 	max-width: 100%;
 	margin: 0;

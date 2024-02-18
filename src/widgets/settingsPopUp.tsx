@@ -9,6 +9,7 @@ export default function SettingsPopUp(props:{popIn:boolean, setPopIn:(b:boolean)
     const currentValue = budgetInput.current.value;
     if(isValidNumber(currentValue)){
       DataManager.cache!.budget = parseFloat(budgetInput.current.value);
+      DataManager.SaveData(DataManager.cache!)
       DataManager.updateState();
     }else{
       alert("not a valid Number")

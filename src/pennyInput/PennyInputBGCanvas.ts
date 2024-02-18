@@ -142,7 +142,7 @@ export default class PennyInputBGCanvas{
     })
 	}
 	drawText(){ 
-    const fontSize = (document.documentElement.clientWidth > 500) ? rem(2.5) : rem(1.5)
+    const fontSize = (document.documentElement.clientWidth > 500) ? rem(1.5) : rem(1)
 		const gap = rem(0.5);
     const ctx = this.elCanvas.getContext('2d')!;
     const horizontalLines = this.lines.horizontal;
@@ -163,7 +163,7 @@ export default class PennyInputBGCanvas{
     // ctx.rotate(90)
     ctx.translate(x, y);
     ctx.rotate(Math.PI/2)
-    ctx.font = `700 ${rem(1)}px Jomhuria`
+    ctx.font = `700 ${rem(0.7)}px Jomhuria`
     const wholeWidth = Math.min(document.documentElement.clientWidth, 500);
     // ctx.fillText('+0.01', -gap/2, (bigWidth*2)-(tinyWidth/4))
     ctx.fillText('+0.01', 0, (wholeWidth/2)-(tinyWidth/2))
