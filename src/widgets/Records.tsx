@@ -62,6 +62,7 @@ export default function Records(){
             border:'none',
             padding:'0.5rem',
             margin:'0.5rem',
+            fontWeight:"600",
             borderRadius:'1rem',
             transition:'0.3s',
             transform: isActive ? 'scale(1)':'scale(0.8)',

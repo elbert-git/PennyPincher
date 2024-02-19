@@ -3,7 +3,16 @@
 @use './pennyInput.scss';
 @use './popUp.scss';
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 // *{outline: red 1px solid;}
+
+
+*{
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
 
 // general css
 html, body{
