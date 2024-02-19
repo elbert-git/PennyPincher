@@ -1,29 +1,47 @@
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { DataManager } from "../data/dataManager"
-import { isValidNumber } from "../mathUtilities";
+import { downloadTextFile, isValidNumber, getCurrentDateAsString } from "../mathUtilities";
 
 export default function SettingsPopUp(props:{popIn:boolean, setPopIn:(b:boolean)=>any}){
   const budgetInput = useRef<any>()
+  const [clearLogCount, setClearLogCount] = useState(5);
+
+  // set budget input
+  useEffect(()=>{
+    budgetInput.current.value = DataManager.cache!.budget
+  }, [budgetInput.current])
 
   const setBudget = ()=>{
     const currentValue = budgetInput.current.value;
     if(isValidNumber(currentValue)){
+      // update datamanager
       DataManager.cache!.budget = parseFloat(budgetInput.current.value);
       DataManager.SaveData(DataManager.cache!)
       DataManager.updateState();
+      // pop down
+      props.setPopIn(false)
     }else{
       alert("not a valid Number")
     }
   }
 
   const clearLogs = ()=>{
-    const newData = DataManager.cache!;
-    newData.logEntries = []
-    DataManager.SaveData(newData)
-    window.location.reload()
+    if(clearLogCount <= 0){
+      const newData = DataManager.cache!;
+      newData.logEntries = []
+      DataManager.SaveData(newData)
+      window.location.reload()
+    }else{
+      setClearLogCount(clearLogCount-1)
+    }
   }
   
-  const exportLogs = ()=>{console.log("exporting logs is not done")}
+  const exportLogs = ()=>{
+    const csv = DataManager.exportRecordsAsCSV();
+    console.log(csv);
+    downloadTextFile(csv, `PennyPincherRecords_${getCurrentDateAsString()}.csv`)
+    console.log("exporting logs is not done")
+  }
 
   const togglePop = ()=>{
     props.setPopIn(false)
@@ -59,7 +77,7 @@ export default function SettingsPopUp(props:{popIn:boolean, setPopIn:(b:boolean)
       </div>
       <button className="interactive" onClick={setBudget}>Set</button>
       <div className="divider"></div>
-      <button className="interactive" onClick={clearLogs}>Clear Logs</button>
+      {clearLogCount === 5 ? <button className="interactive" onClick={clearLogs}>Clear Logs</button> : <button className="interactive" onClick={clearLogs}>Press {clearLogCount+1} more times</button>}
       <button className="interactive" onClick={exportLogs}>Export Logs</button>
     </div>
     <button className="interactive popUpReturnButton" onClick={()=>{props.setPopIn(false)}}>return</button>

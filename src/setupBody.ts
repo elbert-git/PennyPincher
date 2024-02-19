@@ -22,15 +22,15 @@ export default function createBody(){
           <div class="side1 uiCard opacity">
             <div class="categoryLabel">Pick Categories</div>
             <div class="categoryPickerLabels">
-              <div style="background-color:#ffbe76" class="categoryPill interactive">Food</div>
-              <div style="background-color:#686de0" class="categoryPill interactive">Transportation</div>
+              <div style="background-color:#FFBE76" class="categoryPill interactive">Food</div>
+              <div style="background-color:#9AAAFF" class="categoryPill interactive">Transportation</div>
               <div style="background-color:#ffe58d" class="categoryPill interactive">Utilities</div>
-              <div style="background-color:#7ed6df" class="categoryPill interactive">Shelter</div>
-              <div style="background-color:#f9ca24" class="categoryPill interactive">Recreation</div>
-              <div style="background-color:#e056fd" class="categoryPill interactive">Personal</div>
-              <div style="background-color:#eb4d4b" class="categoryPill interactive">Groceries</div>
-              <div style="background-color:#be2edd" class="categoryPill interactive">Medical</div>
-              <div style="background-color:#6ab04c" class="categoryPill interactive">Generosity</div>
+              <div style="background-color:#B6F8FF" class="categoryPill interactive">Shelter</div>
+              <div style="background-color:#FFF175" class="categoryPill interactive">Recreation</div>
+              <div style="background-color:#FFA8F1" class="categoryPill interactive">Personal</div>
+              <div style="background-color:#FF9998" class="categoryPill interactive">Groceries</div>
+              <div style="background-color:#D3A8FF" class="categoryPill interactive">Medical</div>
+              <div style="background-color:#ABFF78" class="categoryPill interactive">Generosity</div>
             </div>
           </div>
           <div class="side2 opacity fadeOut flex flexJustifyCenter flexAlignCenter fillWidth">

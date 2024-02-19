@@ -55,4 +55,28 @@ export class DataManager{
     // update react
     DataManager.updateState()
   }
+  static exportRecordsAsCSV(){
+    let finalData = "category,amount,date\n"
+    DataManager.cache!.logEntries.forEach((entry)=>{
+      // create timestamp 
+      const dateString = formatDateFromEpochTimestamp(entry.timeStamp)
+      // create new entry and add it to string
+      const entryString = `${entry.categoryKey}, ${entry.amount}, ${dateString} \n`;
+      finalData += entryString
+    })
+    return finalData
+  }
+}
+
+
+function formatDateFromEpochTimestamp(epochTimestampString:number):string {
+    // Create a new Date object with the epoch timestamp
+    const date = new Date(epochTimestampString);
+    // Extract day, month, and year
+    const day = date.getDate().toString().padStart(2, '0'); // Pad single-digit days with a leading zero
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based, so add 1
+    const year = date.getFullYear();
+    // Format the date as "dd/mm/yyyy"
+    const formattedDate = `${day}/${month}/${year}`;
+    return formattedDate;
 }

@@ -30,7 +30,7 @@ export default function Charts(){
     pieCanvas.setData(pieDatas)
     // set bar chart data
     barCanvas.setData(DataManager.SortByDate())
-  }, [elPieChart.current])
+  }, [elPieChart.current, elBarChart.current])
 
   return <Card>
     <ReactSwipe className="carousel">
