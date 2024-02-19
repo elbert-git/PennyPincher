@@ -1,4 +1,4 @@
-import { createFakeUserData } from "./createDefaultData";
+import createNewUserData from "./createDefaultData";
 import { LogEntry, UserData } from "./dataInterfaces";
 
 // local storage key
@@ -24,7 +24,7 @@ export class DataManager{
     if(rawRead){ // if data exists then load to cache
       DataManager.cache = JSON.parse(rawRead) as UserData
     }else{ // if data doesn't exist then add new default data and save it and load to cache
-      DataManager.cache = createFakeUserData();
+      DataManager.cache = createNewUserData();
       localStorage.setItem(localStorageKey, JSON.stringify(this.cache))
     }
   }
