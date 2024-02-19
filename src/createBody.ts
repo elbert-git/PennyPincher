@@ -7,8 +7,9 @@ export default function createBody(){
     <!-- input ui -->
     <div id="inputUIRoot" class="inputUIRoot fillWidth fillHeight opacity fadeOut">
       <div id="upperUI" class="inputLabel">
-        <div class="uiCard">
-          <div id="amountLabel">$00.00</div>
+        <div class="uiCard flex flexColumn flexAlignCenter">
+          <input type="number" id="amountLabel"></input>
+          <p class="editPrompt">tap to edit</p>
           <div class="amountCategoryDisplayRoot">
             <div id="amountCategoryDisplay">category</div>
           </div>

@@ -29,7 +29,7 @@ function getBalance(){
 
 export default function Balance(props:{setPopIn:(b:boolean)=>void}){
   const budget = DataManager.cache!.budget;
-  const balance = getBalance();
+  const balance = Math.max(getBalance(), 0);
   return <Card>
     <div className="balance fillWidth flex">
       <div className="col1 flex flexGrow flexColumn flexJustifycenter">
@@ -37,7 +37,7 @@ export default function Balance(props:{setPopIn:(b:boolean)=>void}){
         <RangeSlider value={(balance/budget)*100}></RangeSlider>
       </div>
       <div className="col2 flex flexAlignCenter flexJustifyCenter">
-        <strong>{formatCurrency(balance)}</strong>
+        <strong>${formatCurrency(balance)}</strong>
       </div>
       <MenuButton setPopIn={props.setPopIn}></MenuButton>
     </div>

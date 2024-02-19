@@ -4,7 +4,7 @@ import App from './app.tsx'
 import './styles/css/main.css'
 import { DataManager } from './data/dataManager.ts'
 import PennyInputSystem from './pennyInput/PennyInput.ts'
-import createBody from './setupBody.ts'
+import createBody from './createBody.ts'
 
 // init data manager
 DataManager.init();

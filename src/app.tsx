@@ -7,7 +7,7 @@ import SettingsPopUp from "./widgets/settingsPopUp"
 import { useState } from "react"
 
 function customDispatch(){
-  return {count:0}
+  return {count:Math.random()}
 }
 
 export default function App(){

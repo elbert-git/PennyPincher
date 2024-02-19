@@ -1,4 +1,4 @@
-import { formatCurrency } from "../mathUtilities";
+import { formatCurrency, isValidNumber } from "../mathUtilities";
 import PennyButton from "./PennyButton";
 import { categories } from "../data/constants";
 import { DataManager } from "../data/dataManager";
@@ -12,7 +12,7 @@ export default class PennyUI{
   elBottomButtons = document.getElementById("bottomButtons")!;
   elUpperUI = document.getElementById("upperUI")!;
   elCancelButton = document.getElementById("uiCancelButton");
-  elMainLabel = document.getElementById("amountLabel");
+  elMainLabel:HTMLInputElement = document.getElementById("amountLabel") as HTMLInputElement;
   elMainCategoryLable = document.getElementById("amountCategoryDisplay");
   elConfirmButton = document.getElementById("confirmButton");
   // states
@@ -37,20 +37,25 @@ export default class PennyUI{
     }
     this.setCategory("")
     this.elConfirmButton!.addEventListener("pointerup", ()=>{
-      if(this.currentNumber > 0){
-        // update the data manager with function
-        const newEntry:LogEntry = {
-          amount:this.currentNumber,
-          categoryKey:this.currentCategory,
-          categoryColor: categories[this.currentCategory].color,
-          timeStamp: Date.now(),
-          id:uuid()
+      // enforce valid numbers
+      if(isValidNumber(this.elMainLabel.value)){
+        if(this.currentNumber > 0){
+          // update the data manager with function
+          const newEntry:LogEntry = {
+            amount: parseFloat(this.elMainLabel.value),
+            categoryKey:this.currentCategory,
+            categoryColor: categories[this.currentCategory].color,
+            timeStamp: Date.now(),
+            id:uuid()
+          }
+          DataManager.addEntry(newEntry)
+          // reset ui
+          this.toggleUI(false);
+          this.updateMainLabelByNumber(0);
+          this.setCategory("")
+        }else{
+          alert("not a valid number")
         }
-        DataManager.addEntry(newEntry)
-        // reset ui
-        this.toggleUI(false);
-        this.updateMainLabelByNumber(0);
-        this.setCategory("")
       }else{
         alert("not a valid number")
       }
@@ -89,7 +94,7 @@ export default class PennyUI{
   updateMainLabelByNumber(num:number){
     if(num<0){return null} // prevent negative values
     this.currentNumber = num
-    this.elMainLabel!.innerText = `${formatCurrency(this.currentNumber)}`
+    this.elMainLabel!.value = `$${formatCurrency(this.currentNumber)}`
   }
   updateMainLabel(yChange:number, xZone:number){
     // multiplier map
@@ -98,7 +103,7 @@ export default class PennyUI{
     this.currentNumber += yChange * multiplier[xZone]
     if(this.currentNumber < 0){this.currentNumber = 0} // prevent negative values
     // update ui
-    this.elMainLabel!.innerText = `${formatCurrency(this.currentNumber)}`
+    this.elMainLabel!.value = `${formatCurrency(this.currentNumber)}`
     // play animation
     const element = document.getElementById("upperUI")!
     element.classList.remove("popAnim")
@@ -116,6 +121,8 @@ export default class PennyUI{
       // flip the ui to show confirm button
       document.getElementsByClassName('side1')[0].classList.add("fadeOut")
       document.getElementsByClassName('side2')[0].classList.remove("fadeOut")
+      // hide edit prompt
+      document.getElementsByClassName("editPrompt")[0].classList.add("editPromptHide");
     }else{ // setting it to null
       // update state
       this.currentCategory = category
@@ -125,6 +132,7 @@ export default class PennyUI{
       // flip the ui to show categories
       document.getElementsByClassName('side1')[0].classList.remove("fadeOut")
       document.getElementsByClassName('side2')[0].classList.add("fadeOut")
+      document.getElementsByClassName("editPrompt")[0].classList.remove("editPromptHide");
     }
   }
 }

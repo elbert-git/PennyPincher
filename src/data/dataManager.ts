@@ -66,6 +66,15 @@ export class DataManager{
     })
     return finalData
   }
+
+  static deleteEntry(id:string){
+    // remove entry
+    const logs = DataManager.cache!.logEntries
+    const newLogs = logs.filter((log)=>{return log.id !== id})
+    // save cache
+    DataManager.cache!.logEntries = newLogs
+    DataManager.SaveData(DataManager.cache!)
+  }
 }
 
 

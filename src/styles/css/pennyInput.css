@@ -74,8 +74,20 @@
 
 #amountLabel {
   text-align: center;
-  font-size: 5rem;
+  font-size: 4rem;
   font-weight: 800;
+  width: 100%;
+  border: none;
+  pointer-events: auto;
+}
+
+.editPrompt {
+  transition: 0.3s;
+  max-height: 3rem;
+  overflow: hidden;
+}
+.editPrompt.editPromptHide {
+  max-height: 0px;
 }
 
 .amountCategoryDisplayRoot {

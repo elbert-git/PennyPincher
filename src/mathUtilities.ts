@@ -54,7 +54,7 @@ let USDollar = new Intl.NumberFormat('en-US', {
 });
 
 export function formatCurrency(num:number){
-    return USDollar.format(num)
+    return USDollar.format(num).substring(1)
 }
 
 export function isValidNumber(str: string): boolean {
